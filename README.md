@@ -73,10 +73,9 @@ chmod +x Kiwix-desktop-x86_64.AppImage
 ```
 **3.运行 Kiwix Desktop**
 在终端运行：
-
-bash
-
+```bash
 ./Kiwix-desktop-x86_64.AppImage
+```
 或者直接在文件管理器中双击运行。
 
 AppImage 方式无需额外依赖，所有依赖都打包在文件内，兼容性好。

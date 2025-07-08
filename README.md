@@ -84,24 +84,22 @@ AppImage 方式无需额外依赖，所有依赖都打包在文件内，兼容�
 
 **1.安装 Flatpak（如未安装）**
 Ubuntu/Debian 系：
-
+```
 bash
-
 sudo apt update
-
 sudo apt install flatpak
-
+```
 Fedora：
-
+```
 bash
-
 sudo dnf install flatpak
+```
 
 **2.添加 Flathub 软件源（如未添加）**
-
+```
 bash
-
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
 
 **3.安装 Kiwix Desktop**
 

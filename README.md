@@ -4,18 +4,18 @@ Kiwix 是一个开源项目，主要用于离线查看维基百科、维基教�
 
 你可以通过以下方式找到 Kiwix：
 
-官方网站：
+**官方网站：**
 https://www.kiwix.org
 
-GitHub 仓库（主仓库）：
+**GitHub 仓库（主仓库）：**
 https://github.com/kiwix/kiwix-tools
 https://github.com/kiwix/kiwix-js
 https://github.com/kiwix/kiwix-lib
 
-下载页面：
+**下载页面：**
 https://www.kiwix.org/downloads/
 
-应用商店：
+**应用商店：**
 
 Android: Google Play 搜索“Kiwix”
 iOS: App Store 搜索“Kiwix”
@@ -25,31 +25,31 @@ iOS: App Store 搜索“Kiwix”
 Kiwix 组织（https://github.com/kiwix）下有多个仓库，每个仓库负责 Kiwix 生态中的不同功能。以下是 Kiwix 组织下部分主要仓库的简介：
 仓库的简介：
 
-1.kiwix-js
+**1.kiwix-js**
 这是一个轻量级、便携的 ZIM 文件阅读器，主要用于离线访问如维基百科等内容。它实现为渐进式 Web 应用（PWA）、Electron、NWJS 及 UWP 应用，支持多平台（Windows、Linux 等）。
 项目地址：https://github.com/kiwix/kiwix-js
 
-2.kiwix-js-pwa
+**2.kiwix-js-pwa**
 这是 kiwix-js 的 PWA 版本（渐进式 Web 应用），主要面向浏览器和移动设备，可以直接在网页离线打开 ZIM 文件。
 项目地址：https://github.com/kiwix/kiwix-js-pwa
 
-3.kiwix-tools
+**3.kiwix-tools**
 该仓库包含一组命令行工具，比如 kiwix-serve（ZIM 文件的 HTTP 服务器），方便在本地或局域网内提供离线内容服务。
 项目地址：https://github.com/kiwix/kiwix-tools
 
-4.kiwix-lib
+**4.kiwix-lib**
 提供 C/C++ 的 Kiwix 库，是开发 Kiwix 相关应用的底层代码基础。
 项目地址：https://github.com/kiwix/kiwix-lib
 
-5.kiwix-android
+**5.kiwix-android**
 Kiwix 的安卓客户端源码，允许用户在 Android 设备上使用 Kiwix 离线浏览功能。
 项目地址：https://github.com/kiwix/kiwix-android
 
-6.kiwix-desktop
+**6.kiwix-desktop**
 Kiwix 桌面版应用源码，支持 Windows、macOS、Linux 等桌面平台。
 项目地址：https://github.com/kiwix/kiwix-desktop
 
-7.openZIM
+**7.openZIM**
 相关的 openZIM 仓库用于 ZIM 文件格式的开发和维护，是 Kiwix 所用内容压缩格式的标准实现。
 项目地址：https://github.com/openzim
 

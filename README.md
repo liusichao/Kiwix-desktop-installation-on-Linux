@@ -1,18 +1,5 @@
-# Kiwix-desktop-installation-on-Linux
-帮我找一下kiwix
-Copilot
-
-
-
-Copilot navigation
-
-
-Copilot Chat
-Kiwix: Offline access to Wikipedia content
-You said: 帮我找一下kiwix
-帮我找一下kiwix
-
-Copilot said: Kiwix 是一个开源项目，主要用于离线查看维基百科、维基教科书、维基词典等网站的内容。它支持多种平台，包括 Windows、macOS、Linux、Android 和 iOS。Kiwix 的主要用途是让用户即使在没有互联网连接的情况下，也能访问大量的知识内容。 你可以通过以下方式找到 Kiwix： 1.
+# 帮我找一下kiwix
+Kiwix 是一个开源项目，主要用于离线查看维基百科、维基教科书、维基词典等网站的内容。它支持多种平台，包括 Windows、macOS、Linux、Android 和 iOS。Kiwix 的主要用途是让用户即使在没有互联网连接的情况下，也能访问大量的知识内容。 你可以通过以下方式找到 Kiwix： 1.
 Kiwix 是一个开源项目，主要用于离线查看维基百科、维基教科书、维基词典等网站的内容。它支持多种平台，包括 Windows、macOS、Linux、Android 和 iOS。Kiwix 的主要用途是让用户即使在没有互联网连接的情况下，也能访问大量的知识内容。
 
 你可以通过以下方式找到 Kiwix：

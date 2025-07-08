@@ -1034,3 +1034,133 @@ cmake --build . --target clean
 ---
 
 如遇具体报错，可贴出终端信息以便进一步协助。
+
+---
+
+# 问题十一、编译 libmicrohttpd （如需自动化批量构建），请给出详细的每个步骤和细节。
+# libmicrohttpd 源码编译与安装指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+GNU libmicrohttpd 是一个小巧的 C 库，用于在应用中嵌入 HTTP 服务器功能。自动化批量构建时，源码编译 libmicrohttpd 可获得最新特性或自定义参数。
+
+---
+
+## 2. 安装基础编译依赖
+
+```bash
+sudo apt update
+sudo apt install git build-essential cmake pkg-config autoconf automake libtool
+```
+
+---
+
+## 3. 获取 libmicrohttpd 源码
+
+可从 [GNU 官网](https://www.gnu.org/software/libmicrohttpd/) 或 [GitHub 镜像](https://github.com/gnunet/libmicrohttpd) 获取。
+
+以 GitHub 方式为例：
+
+```bash
+git clone https://github.com/gnunet/libmicrohttpd.git
+cd libmicrohttpd
+```
+
+如需特定版本，可查看 tag 并切换：
+
+```bash
+git tag             # 查看所有版本
+git checkout v0.9.77    # 举例：切换到 0.9.77 版本
+```
+
+---
+
+## 4. 配置与构建
+
+libmicrohttpd 支持 autotools（推荐）、CMake 两种主流构建方式。
+
+### 方法一：Autotools（推荐）
+
+```bash
+./bootstrap     # 仅源码版本需要，如官方 tarball 可省略
+./configure --prefix=/usr/local
+make -j$(nproc)
+```
+
+> 可通过 `./configure --help` 查看所有可选参数。
+
+### 方法二：CMake
+
+```bash
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+cmake --build . -- -j$(nproc)
+```
+
+---
+
+## 5. 安装
+
+### Autotools 构建后
+
+```bash
+sudo make install
+```
+
+### CMake 构建后
+
+```bash
+sudo cmake --install .
+```
+
+---
+
+## 6. 验证安装
+
+```bash
+ls /usr/local/lib | grep microhttpd
+ls /usr/local/include | grep microhttpd
+pkg-config --modversion libmicrohttpd
+```
+
+---
+
+## 7. 可选自定义参数
+
+- 通过 `./configure` 或 `cmake` 可启用/禁用特性，如 SSL 支持、调试、静态库等。
+- 常用参数示例（Autotools）：
+  - `--enable-https` 启用 HTTPS 支持
+  - `--disable-shared` 仅编译静态库
+  - `--enable-debug` 启用调试信息
+
+---
+
+## 8. 清理构建产物（可选）
+
+```bash
+make clean
+```
+或（CMake）
+```bash
+cmake --build . --target clean
+```
+
+---
+
+## 9. 常见问题
+
+- **找不到 make/cmake/autoconf 等命令**：请确保依赖已安装。
+- **权限问题**：安装步骤请加 sudo。
+- **链接找不到新库**：如 `/usr/local/lib` 不在系统库路径，执行 `sudo ldconfig`。
+
+---
+
+## 10. 参考链接
+
+- [libmicrohttpd GitHub](https://github.com/gnunet/libmicrohttpd)
+- [GNU 官方下载页](https://www.gnu.org/software/libmicrohttpd/)
+
+---
+
+如遇具体报错，可贴出终端信息以便进一步协助。

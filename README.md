@@ -144,11 +144,13 @@ openZIM
 **2.赋予执行权限**
 打开终端，进入下载目录，执行：
 bash
+
 chmod +x Kiwix-desktop-x86_64.AppImage
 
 **3.运行 Kiwix Desktop**
 在终端运行：
 bash
+
 ./Kiwix-desktop-x86_64.AppImage
 或者直接在文件管理器中双击运行。
 
@@ -158,12 +160,16 @@ AppImage 方式无需额外依赖，所有依赖都打包在文件内，兼容�
 
 **1.安装 Flatpak（如未安装）**
 Ubuntu/Debian 系：
+
 bash
+
 sudo apt update
 sudo apt install flatpak
 
 Fedora：
+
 bash
+
 sudo dnf install flatpak
 
 **2.添加 Flathub 软件源（如未添加）**
@@ -171,30 +177,40 @@ bash
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 **3.安装 Kiwix Desktop**
+
 bash
+
 flatpak install flathub org.kiwix.desktop
 
 **4.运行 Kiwix Desktop**
+
 bash
+
 flatpak run org.kiwix.desktop
 
 
 **方法三：通过发行版软件源安装（部分发行版提供）**
 Ubuntu/Debian 系：
+
 bash
+
 sudo apt update
 sudo apt install kiwix
 （注意：此版本可能较旧，官方更推荐 AppImage 或 Flatpak）
 
 **方法四：源码编译安装**
 **1.安装依赖包（以 Ubuntu/Debian 为例）**
+
 bash
+
 sudo apt update
 sudo apt install git cmake build-essential qtbase5-dev qttools5-dev-tools libzim-dev libmicrohttpd-dev zlib1g-dev
 其它发行版请根据包管理器查找类似名称的包。
 
 **2.克隆源码并编译**
+
 bash
+
 git clone https://github.com/kiwix/kiwix-desktop.git
 cd kiwix-desktop
 mkdir build && cd build

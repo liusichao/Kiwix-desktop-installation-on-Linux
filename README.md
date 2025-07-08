@@ -148,7 +148,7 @@ build-essential、cmake：构建工具。
 
 如需进一步帮助，比如如何下载 ZIM 数据包等，可以继续提问！
 
-从源码编译（进阶，适合有开发经验的用户），依赖包有（以Debian/Ubuntu为例）：
+# 从源码编译（进阶，适合有开发经验的用户），依赖包有（以Debian/Ubuntu为例）：
 Qt 5 或 Qt 6（开发包）
 CMake
 Git
@@ -161,6 +161,8 @@ kiwix-build
 kiwix-tools
 kiwix-libkiwix
 请给出详细的安装细节和每个安装步骤，并加以详细说明。
+
+下面是 Kiwix Desktop 在 Linux（以 Debian/Ubuntu 为例）下从源码编译的详细步骤，包含所有关键依赖包的安装和每步说明。适合有开发经验的用户或希望进行深度定制的场景。
 
 
 

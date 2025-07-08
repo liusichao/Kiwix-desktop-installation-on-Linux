@@ -644,4 +644,136 @@ make clean
 
 如遇具体编译或链接错误，可附上终端报错信息便于进一步协助。
 
+---
 
+# 问题八、编译 zlib（如需自动化批量构建），请给出详细的每个步骤和细节。
+# zlib 源码编译与安装指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+zlib 是广泛使用的压缩库，许多 C/C++ 项目依赖它。手动编译可获得最新版或自定义参数，适用于自动化批量构建场景。
+
+---
+
+## 2. 安装基础编译依赖
+
+```bash
+sudo apt update
+sudo apt install build-essential git cmake
+```
+
+---
+
+## 3. 获取 zlib 源码
+
+可从 [zlib 官方网站](https://zlib.net/) 或其 [GitHub 镜像](https://github.com/madler/zlib) 获取。
+
+以 GitHub 为例：
+
+```bash
+git clone https://github.com/madler/zlib.git
+cd zlib
+```
+
+如需特定版本，可以通过 `git tag` 查看并检出：
+
+```bash
+git tag      # 查看所有版本
+git checkout v1.3.1   # 切换到1.3.1版本（示例）
+```
+
+---
+
+## 4. 配置与构建
+
+zlib 支持多种构建方式，这里以 CMake 和原生 configure 两种方式介绍。
+
+### 方式一：CMake（推荐自动化/批量构建）
+
+```bash
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+```
+
+如需自定义安装路径：
+
+```bash
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/your/custom/path
+cmake --build .
+```
+
+### 方式二：原生 configure 脚本
+
+```bash
+./configure
+make
+```
+
+---
+
+## 5. 安装
+
+### CMake 构建后安装
+
+```bash
+sudo cmake --install .
+```
+或
+```bash
+sudo make install
+```
+（如用的是 make）
+
+### configure 构建后安装
+
+```bash
+sudo make install
+```
+
+默认会安装到 `/usr/local/lib` 和 `/usr/local/include`，如需自定义安装路径，请在配置时指定（见 CMake 示例）。
+
+---
+
+## 6. 验证安装
+
+```bash
+ls /usr/local/lib | grep zlib
+ls /usr/local/include | grep zlib
+```
+头文件和库文件应已正确安装。
+
+---
+
+## 7. 清理构建产物（可选）
+
+在构建目录下执行：
+
+```bash
+make clean
+```
+或
+```bash
+cmake --build . --target clean
+```
+
+---
+
+## 8. 常见问题
+
+- **找不到 make/cmake：** 请确保 `build-essential` 和 `cmake` 已安装。
+- **权限问题：** 安装步骤如遇权限报错请加 `sudo`。
+- **链接错误：** 编译后若其他程序找不到 zlib，可检查 `/usr/local/lib` 是否在 `LD_LIBRARY_PATH`，或运行 `sudo ldconfig` 刷新链接缓存。
+
+---
+
+## 9. 参考链接
+
+- [zlib 官方网站](https://zlib.net/)
+- [zlib GitHub 仓库](https://github.com/madler/zlib)
+- [Kiwix 编译依赖说明](https://github.com/kiwix/kiwix-lib#build-dependencies)
+
+---
+
+如遇具体编译/链接错误，可以贴出终端报错以便进一步协助。

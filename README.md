@@ -12,8 +12,7 @@ https://github.com/kiwix/kiwix-tools
 https://github.com/kiwix/kiwix-js
 https://github.com/kiwix/kiwix-lib
 
-**下载页面：**
-https://www.kiwix.org/downloads/
+**下载页面https://www.kiwix.org/downloads/**
 
 **应用商店：**
 

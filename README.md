@@ -297,3 +297,115 @@ kiwix-desktop
 ---
 
 如有详细编译错误或特殊需求，建议查阅各仓库的 README 或 ISSUE 区，或进一步提问！
+
+# 问题五、编译 kiwix-build（如需自动化批量构建），请给出详细的每个步骤和细节。
+# Kiwix-build 源码编译与安装指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+`kiwix-build` 是 Kiwix 官方提供的自动化构建工具链，适用于批量构建 Kiwix 及其相关项目（如 kiwix-lib、kiwix-tools、kiwix-desktop 等）。它支持本地和交叉编译，特别适合需要构建多平台安装包或做持续集成的开发者。
+
+---
+
+## 2. 安装基础依赖
+
+在开始前，请确保你的系统已经更新，并安装了编译所需的基本工具和依赖：
+
+```bash
+sudo apt update
+sudo apt install git build-essential cmake automake autoconf pkg-config libtool python3 python3-pip
+```
+
+---
+
+## 3. 克隆 kiwix-build 仓库
+
+```bash
+git clone https://github.com/kiwix/kiwix-build.git
+cd kiwix-build
+```
+
+---
+
+## 4. 配置 Python 环境（如需使用 python 构建脚本）
+
+Kiwix-build 使用 Python 3 脚本自动化流程。建议单独为其创建虚拟环境：
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+> `requirements.txt` 在根目录下，包含所需 Python 包。
+
+---
+
+## 5. 初始化/准备构建环境
+
+kiwix-build 支持多种构建配置。一般流程如下：
+
+- 查看可用构建目标和参数：
+  ```bash
+  ./kiwix-build --help
+  ```
+- 列出所有可用项目：
+  ```bash
+  ./kiwix-build --list
+  ```
+- 拉取所有子模块（如有）：
+  ```bash
+  git submodule update --init --recursive
+  ```
+
+---
+
+## 6. 构建某个项目（以 kiwix-lib 为例）
+
+```bash
+./kiwix-build kiwix-lib
+```
+
+构建结果会保存在 `build/` 目录下。
+
+- 若要构建所有项目，可执行：
+  ```bash
+  ./kiwix-build all
+  ```
+
+- 指定平台、架构或构建类型等参数（如交叉编译、release/debug）：
+  ```bash
+  ./kiwix-build --target=kiwix-lib --type=release --platform=linux
+  ```
+
+- 支持的参数详见文档或 `--help` 输出。
+
+---
+
+## 7. 清理构建产物
+
+若需清理所有已构建文件，可执行：
+
+```bash
+./kiwix-build --clean
+```
+
+---
+
+## 8. 常见问题和建议
+
+- **依赖报错**：请确保所有基础依赖、python3 及其依赖已安装齐全。
+- **子模块未同步**：记得执行 `git submodule update --init --recursive`。
+- **权限问题**：构建过程中若需安装依赖包，可能需 `sudo` 权限。
+- **定制构建参数**：可参考 `docs/` 目录和仓库 README，了解更多自定义构建方式。
+
+---
+
+## 9. 参考链接
+
+- [kiwix-build GitHub 仓库](https://github.com/kiwix/kiwix-build)
+- [Kiwix 官方文档](https://wiki.kiwix.org/wiki/Kiwix)
+
+---
+
+如有具体报错或特殊需求，可进一步提问或参见官方 issue 区。

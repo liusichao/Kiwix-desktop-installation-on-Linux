@@ -777,3 +777,125 @@ cmake --build . --target clean
 ---
 
 如遇具体编译/链接错误，可以贴出终端报错以便进一步协助。
+
+---
+
+问题九、编译 libzim（如需自动化批量构建），请给出详细的每个步骤和细节。
+# libzim 源码编译与安装指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+libzim 是 openZIM 项目的核心库，实现了 ZIM 文件格式的读写与解析。许多离线内容工具（如 Kiwix 系列）都依赖它。自动化批量构建时，建议源码编译以获得最新特性或自定义参数。
+
+---
+
+## 2. 安装基础依赖
+
+请先安装编译 libzim 所需的基础开发包：
+
+```bash
+sudo apt update
+sudo apt install git build-essential cmake ninja-build zlib1g-dev liblzma-dev
+```
+
+**依赖说明：**
+- `git`：源码管理工具
+- `build-essential`：编译器及基础开发工具（gcc/g++/make等）
+- `cmake`、`ninja-build`：现代化构建系统
+- `zlib1g-dev`：压缩支持
+- `liblzma-dev`：LZMA 压缩算法支持
+
+---
+
+## 3. 获取 libzim 源码
+
+```bash
+git clone https://github.com/openzim/libzim.git
+cd libzim
+```
+
+如需特定稳定版本，可以查看 tag 并切换：
+
+```bash
+git tag           # 查看所有发布版本
+git checkout v7.4.5   # 示例：切换到 7.4.5 版本
+```
+
+---
+
+## 4. 配置与构建
+
+推荐使用 Ninja 构建系统（也可用 make）：
+
+```bash
+mkdir build
+cd build
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
+ninja
+```
+
+**参数说明：**
+- `-G Ninja`：使用 Ninja 构建系统（更快）
+- `-DCMAKE_BUILD_TYPE=Release`：编译为 Release 优化版本
+
+如需自定义安装路径，可加参数：
+
+```bash
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/your/custom/path
+```
+
+---
+
+## 5. 安装
+
+```bash
+sudo ninja install
+```
+或（如用 make 构建）
+```bash
+sudo make install
+```
+
+**默认安装路径：** `/usr/local/lib`（库）、`/usr/local/include/zim/`（头文件）
+
+---
+
+## 6. 验证安装
+
+查看目标目录下是否生成了相关库文件和头文件：
+
+```bash
+ls /usr/local/lib | grep zim
+ls /usr/local/include/zim
+```
+
+---
+
+## 7. 清理构建产物（可选）
+
+```bash
+ninja clean
+```
+或
+```bash
+make clean
+```
+
+---
+
+## 8. 常见问题
+
+- **依赖库找不到**：请务必已安装所有 `-dev` 开头的依赖包。
+- **找不到 ninja/make 命令**：请确认 `ninja-build` 或 `build-essential` 已安装。
+- **权限问题**：`install` 步骤需 `sudo`。
+
+---
+
+## 9. 参考链接
+
+- [libzim GitHub 仓库](https://github.com/openzim/libzim)
+- [openZIM 开发文档](https://wiki.openzim.org/wiki/Main_Page)
+
+---
+
+如遇具体编译错误，可贴出终端报错信息以便进一步协助。

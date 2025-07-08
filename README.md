@@ -91,6 +91,7 @@ Ubuntu/Debian 系：
 bash
 
 sudo apt update
+
 sudo apt install flatpak
 
 Fedora：
@@ -109,7 +110,8 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 bash
 
-flatpak install flathub org.kiwix.desktop
+flatpak install flathub 
+org.kiwix.desktop
 
 **4.运行 Kiwix Desktop**
 
@@ -134,6 +136,7 @@ sudo apt install kiwix
 bash
 
 sudo apt update
+
 sudo apt install git cmake build-essential qtbase5-dev qttools5-dev-tools libzim-dev libmicrohttpd-dev zlib1g-dev
 其它发行版请根据包管理器查找类似名称的包。
 
@@ -142,10 +145,15 @@ sudo apt install git cmake build-essential qtbase5-dev qttools5-dev-tools libzim
 bash
 
 git clone https://github.com/kiwix/kiwix-desktop.git
+
 cd kiwix-desktop
+
 mkdir build && cd build
+
 cmake ..
+
 make
+
 sudo make install
 
 # 常见依赖包说明

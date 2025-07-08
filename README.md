@@ -530,6 +530,118 @@ sudo ninja install
 
 如遇具体编译错误，可反馈终端报错信息以便进一步协助。
 
+---
 
+# 问题七、编译 libkiwix（如需自动化批量构建），请给出详细的每个步骤和细节。
+# libkiwix 源码编译与安装指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+`libkiwix` 是 Kiwix 项目的核心 C++ 库，负责对 ZIM 文件的解析和访问。通常你会需要编译最新版 libkiwix，以便为 Kiwix 系列项目（如 kiwix-tools、kiwix-desktop）提供支持。
+
+---
+
+## 2. 安装基础依赖
+
+请确保系统已更新并安装以下开发环境和依赖包：
+
+```bash
+sudo apt update
+sudo apt install git build-essential cmake ninja-build zlib1g-dev libzip-dev libmicrohttpd-dev libcurl4-openssl-dev libssl-dev pkg-config
+```
+
+**依赖说明：**
+- `git`：源码克隆工具
+- `build-essential`：基础编译工具链（gcc、g++ 等）
+- `cmake`、`ninja-build`：现代构建系统
+- `zlib1g-dev`、`libzip-dev`：压缩库
+- `libmicrohttpd-dev`：嵌入式 HTTP 服务器
+- `libcurl4-openssl-dev`、`libssl-dev`：网络和加密支持
+- `pkg-config`：管理编译器和链接器参数
+
+---
+
+## 3. 获取源码
+
+```bash
+git clone https://github.com/kiwix/kiwix-lib.git
+cd kiwix-lib
+```
+
+---
+
+## 4. 配置与构建
+
+```bash
+mkdir build
+cd build
+cmake .. -G Ninja
+ninja
+```
+- `-G Ninja` 指定使用 Ninja 构建系统（如果你更喜欢 make，可以省略）。
+- 也可使用：
+  ```bash
+  cmake ..
+  make
+  ```
+
+---
+
+## 5. 安装
+
+```bash
+sudo ninja install
+```
+或
+```bash
+sudo make install
+```
+（根据你选择的构建工具）
+
+**默认安装路径：** `/usr/local/lib`、头文件在 `/usr/local/include/kiwix/`。
+
+如需自定义安装路径，可在 cmake 时加入参数：
+```bash
+cmake .. -DCMAKE_INSTALL_PREFIX=/your/custom/path
+```
+
+---
+
+## 6. 检查安装结果
+
+- 库文件应出现在 `/usr/local/lib` 或你指定的路径下。
+- 头文件应在 `/usr/local/include/kiwix/` 下。
+
+---
+
+## 7. 清理构建产物（可选）
+
+在 `build` 目录下执行：
+```bash
+ninja clean
+```
+或
+```bash
+make clean
+```
+
+---
+
+## 8. 常见问题
+
+- **依赖报错**：如提示找不到某个库，请确认已正确安装依赖的 `-dev` 包。
+- **找不到头文件/库**：请确认 `sudo ninja install` 或 `sudo make install` 已执行成功，且你的编译器能找到 `/usr/local/lib` 和 `/usr/local/include`。
+- **权限问题**：如安装时报权限错误，请加 `sudo`。
+
+---
+
+## 9. 参考链接
+
+- [kiwix-lib GitHub 仓库](https://github.com/kiwix/kiwix-lib)
+- [Kiwix 官方文档](https://wiki.kiwix.org/wiki/Kiwix)
+
+---
+
+如遇具体编译或链接错误，可附上终端报错信息便于进一步协助。
 
 

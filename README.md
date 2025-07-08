@@ -69,7 +69,7 @@ Kiwix 桌面版应用源码，支持 Windows、macOS、Linux 等桌面平台。
 **2.赋予执行权限**
 打开终端，进入下载目录，执行：
 ```bash
-chmod +x Kiwix-desktop-x86_64.AppImage
+chmod +x  Kiwix-desktop-x86_64.AppImage
 ```
 **3.运行 Kiwix Desktop**
 在终端运行：
@@ -83,6 +83,7 @@ AppImage 方式无需额外依赖，所有依赖都打包在文件内，兼容�
 **方法二：通过 Flatpak 安装（适用于支持 Flatpak 的发行版，如 Fedora、Ubuntu）**
 
 **1.安装 Flatpak（如未安装）**
+
 Ubuntu/Debian 系：
 ```bash
 sudo apt update

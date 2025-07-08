@@ -12,7 +12,8 @@ https://github.com/kiwix/kiwix-tools
 https://github.com/kiwix/kiwix-js
 https://github.com/kiwix/kiwix-lib
 
-**下载页面https://www.kiwix.org/downloads/**
+**下载页面**
+https://www.kiwix.org/downloads/
 
 **应用商店：**
 
@@ -20,7 +21,7 @@ Android: Google Play 搜索“Kiwix”
 iOS: App Store 搜索“Kiwix”
 你想找的是 Kiwix 的哪一部分？比如源码、下载、文档还是使用方法？请进一步说明，我可以帮你找到更具体的内容。
 
-# 帮我说明一下https://github.com/kiwix下都有哪些仓库各自是干啥用的？
+**帮我说明一下https://github.com/kiwix下都有哪些仓库各自是干啥用的？**
 Kiwix 组织（https://github.com/kiwix）下有多个仓库，每个仓库负责 Kiwix 生态中的不同功能。以下是 Kiwix 组织下部分主要仓库的简介：
 仓库的简介：
 

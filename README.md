@@ -124,6 +124,7 @@ Ubuntu/Debian 系：
 bash
 
 sudo apt update
+
 sudo apt install kiwix
 （注意：此版本可能较旧，官方更推荐 AppImage 或 Flatpak）
 

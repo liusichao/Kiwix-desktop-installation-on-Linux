@@ -780,7 +780,7 @@ cmake --build . --target clean
 
 ---
 
-问题九、编译 libzim（如需自动化批量构建），请给出详细的每个步骤和细节。
+# 问题九、编译 libzim（如需自动化批量构建），请给出详细的每个步骤和细节。
 # libzim 源码编译与安装指南（以 Debian/Ubuntu 为例）
 
 ## 1. 简介

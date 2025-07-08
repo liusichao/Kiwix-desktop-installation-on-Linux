@@ -1,4 +1,4 @@
-# 帮我找一下kiwix
+# 问题一、帮我找一下kiwix
 Kiwix 是一个开源项目，主要用于离线查看维基百科、维基教科书、维基词典等网站的内容。它支持多种平台，包括 Windows、macOS、Linux、Android 和 iOS。Kiwix 的主要用途是让用户即使在没有互联网连接的情况下，也能访问大量的知识内容。 你可以通过以下方式找到 Kiwix： 1.
 Kiwix 是一个开源项目，主要用于离线查看维基百科、维基教科书、维基词典等网站的内容。它支持多种平台，包括 Windows、macOS、Linux、Android 和 iOS。Kiwix 的主要用途是让用户即使在没有互联网连接的情况下，也能访问大量的知识内容。
 
@@ -21,7 +21,7 @@ Android: Google Play 搜索“Kiwix”
 iOS: App Store 搜索“Kiwix”
 你想找的是 Kiwix 的哪一部分？比如源码、下载、文档还是使用方法？请进一步说明，我可以帮你找到更具体的内容。
 
-# 帮我说明一下https://github.com/kiwix下都有哪些仓库各自是干啥用的？
+# 问题二、帮我说明一下https://github.com/kiwix下都有哪些仓库各自是干啥用的？
 Kiwix 组织（https://github.com/kiwix）下有多个仓库，每个仓库负责 Kiwix 生态中的不同功能。以下是 Kiwix 组织下部分主要仓库的简介：
 仓库的简介：
 
@@ -58,7 +58,7 @@ Kiwix 桌面版应用源码，支持 Windows、macOS、Linux 等桌面平台。
 如果你对某个具体仓库感兴趣，可以告诉我，我可以为你详细介绍。
 
 
-# 如何在Linux下安装kiwix桌面？请给出详细的安装步骤，以及相关的依赖包。
+# 问题三、如何在Linux下安装kiwix桌面？请给出详细的安装步骤，以及相关的依赖包。
 在 Linux 下安装 Kiwix 桌面版（Kiwix Desktop）可以通过多种方式实现，下面详细介绍常用的几种方法，并列出依赖包说明。
 
 **方法一：使用 AppImage（推荐，适用于大多数 Linux 发行版）**
@@ -148,7 +148,7 @@ build-essential、cmake：构建工具。
 
 如需进一步帮助，比如如何下载 ZIM 数据包等，可以继续提问！
 
-# 从源码编译（进阶，适合有开发经验的用户），依赖包有（以Debian/Ubuntu为例）：
+# 问题四、从源码编译（进阶，适合有开发经验的用户），依赖包有（以Debian/Ubuntu为例）：
 Qt 5 或 Qt 6（开发包）
 CMake
 Git

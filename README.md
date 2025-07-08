@@ -138,6 +138,7 @@ bash
 sudo apt update
 
 sudo apt install git cmake build-essential qtbase5-dev qttools5-dev-tools libzim-dev libmicrohttpd-dev zlib1g-dev
+
 其它发行版请根据包管理器查找类似名称的包。
 
 **2.克隆源码并编译**

@@ -147,3 +147,22 @@ build-essential、cmake：构建工具。
 如需集成到系统或自定义编译，可选择源码编译方式。
 
 如需进一步帮助，比如如何下载 ZIM 数据包等，可以继续提问！
+
+从源码编译（进阶，适合有开发经验的用户），依赖包有（以Debian/Ubuntu为例）：
+Qt 5 或 Qt 6（开发包）
+CMake
+Git
+Zlib
+libzip
+OpenSSL
+ninja-build
+meson
+kiwix-build
+kiwix-tools
+kiwix-libkiwix
+请给出详细的安装细节和每个安装步骤，并加以详细说明。
+
+
+
+
+

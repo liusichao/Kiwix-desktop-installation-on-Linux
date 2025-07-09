@@ -1645,6 +1645,7 @@ sudo cp ninja /usr/local/bin/
 ```bash
 sudo cp misc/bash-completion /etc/bash_completion.d/ninja
 ```
+
 ---
 
 ## 6. 验证安装
@@ -1659,56 +1660,8 @@ ninja --version
 ## 7. 批量自动化建议
 
 - 将以上步骤写入 shell 脚本或 CI/CD 流程（如 GitHub Actions、Jenkins）。
-
-
-
-
-
-
 - 可通过参数或环境变量切换分支/版本，适配不同构建需求。
-- 如需分发到多台机器，可将编译好的 `ninja` 可执行文件直接复制```
-
----
-
-## 4. 编译 Ninja
-
-Ninja 使用自举（bootstrap）方式构建，无需 CMake/make：
-
-```bash
-python3 configure.py --bootstrap
-```
-- 执行后，会在当前目录下生成 `ninja` 可执行文件。
-
-如需指定构建类型或平台，可加参数（通常无需）。
-
----
-
-## 5. 安装
-
-将 ninja 安装到全局（如 `/usr/local/bin`），便于所有用户和自动化脚本调用：
-
-```bash
-sudo cp ninja /usr/local/bin/
-```
-可选：安装 bash/tab 补全脚本
-```bash
-sudo cp misc/bash-completion /etc/bash_completion.d/ninja
-```
-
----
-
-## 6. 验证安装
-
-```bash
-ninja --version
-```
-应输出 Ninja 版本号，表示编译和安装成功。
-
----
-
-## 7. 批量自动化建议
-
-- 将以上步骤写入 shell 脚本或 CI/CD 流程（如 GitHub Actions、Jenkins）。
+- 如需分发到多台机器，可将编译好的 `ninja` 可执行文件直接复制。
 
 ---
 
@@ -1737,6 +1690,4 @@ git clean -fdx
 ---
 
 如遇具体报错，请贴出终端信息以便进一步协助。
-
-
 

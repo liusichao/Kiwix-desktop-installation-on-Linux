@@ -3445,3 +3445,134 @@ default myapp
 ---
 
 # 问题二十九、请帮我给一个ninja的官方手册，语言为中文。
+# Ninja 官方手册（中文翻译）
+
+> 原文：[https://ninja-build.org/manual.html](https://ninja-build.org/manual.html)
+> 本文为 Ninja 官方手册的简明中文翻译，适合初学者和开发者参考。
+
+---
+
+## 目录
+
+1. 简介
+2. Ninja 构建文件（build.ninja）语法
+3. Ninja 命令行用法
+4. Ninja 工具命令
+5. 进阶特性
+6. 常见问题与技巧
+7. 参考资料
+
+---
+
+## 1. 简介
+
+Ninja 是一个专注于速度的小型构建系统，适合作为自动化构建工具（如 CMake、Meson、GN）的后端。Ninja 设计目标是大规模项目下的高效构建，特别适合频繁增量编译。
+
+---
+
+## 2. Ninja 构建文件（build.ninja）语法
+
+Ninja 通过 `build.ninja` 文件描述构建规则。通常此文件由生成器（如 CMake、Meson）自动生成。
+
+### 2.1 变量定义
+
+```ninja
+cflags = -Wall -O2
+```
+
+### 2.2 规则（rule）
+
+```ninja
+rule cc
+  command = gcc $cflags -c $in -o $out
+  description = 编译 $in
+```
+
+### 2.3 构建指令（build）
+
+```ninja
+build foo.o: cc foo.c
+```
+`build <输出>: <规则> <输入>`
+
+### 2.4 依赖类型
+
+- 显式依赖：直接写在 build 行
+- 隐式依赖（用 `|` 分隔）：在输入后用 `|`，如头文件
+- order-only 依赖（用 `||`）：如生成文件
+
+```ninja
+build foo.o: cc foo.c | foo.h || version.h
+```
+
+### 2.5 默认目标
+
+```ninja
+default myapp
+```
+
+---
+
+## 3. Ninja 命令行用法
+
+```bash
+ninja [选项] [目标]
+```
+
+常用选项：
+
+- `-j N`：并行任务数（通常等于 CPU 核数）
+- `-C DIR`：切换到指定目录下运行 Ninja
+- `-v`：输出详细命令行
+
+示例：
+
+```bash
+ninja            # 构建默认目标
+ninja foo.o      # 只构建指定目标
+ninja -j8        # 并行 8 线程
+ninja -C build   # 在 build 目录下构建
+ninja -v         # 显示详细构建命令
+```
+
+---
+
+## 4. Ninja 工具命令（-t）
+
+Ninja 提供一些内置工具命令：
+
+- `ninja -t clean`：清理所有由 Ninja 生成的目标文件
+- `ninja -t targets all`：列出所有目标及其规则
+- `ninja -t graph [目标]`：输出目标依赖的 dot 文件
+- `ninja -t browse`：可视化依赖（需 Python 环境）
+
+---
+
+## 5. 进阶特性
+
+- **增量构建**：Ninja 只会重建发生变化的部分，极大提升效率
+- **自动依赖追踪**：支持自动检测头文件等间接依赖变动
+- **高并发**：最大化利用多核 CPU
+- **构建数据库**：Ninja 维护 .ninja_log 加速后续构建
+
+---
+
+## 6. 常见问题与技巧
+
+- Ninja 不负责生成 build.ninja 文件，实际项目需结合 CMake、Meson、GN 等工具自动生成
+- 推荐用 `ninja -v` 查看详细命令，便于排查错误
+- 编译大项目建议用 `ninja -j$(nproc)` 并行加速
+- 可通过 CMake：`cmake -G Ninja ...`，Meson：`meson setup builddir && ninja -C builddir` 快速集成
+
+---
+
+## 7. 参考资料
+
+- [Ninja 官方手册（英文）](https://ninja-build.org/manual.html)
+- [Ninja GitHub](https://github.com/ninja-build/ninja)
+- [Meson 官方文档（含 Ninja 后端）](https://mesonbuild.com/zh_CN/)
+- [CMake Ninja 生成器文档](https://cmake.org/cmake/help/latest/generator/Ninja.html)
+
+---
+
+如需更详细示例或遇到具体构建报错，可以继续提问！

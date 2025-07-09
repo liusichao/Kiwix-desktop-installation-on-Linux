@@ -4707,6 +4707,8 @@ sudo make install
 
 以 GitHub Actions 为例，实现多平台自动化构建：
 
+### 1. 在仓库根目录创建 `.github/workflows/build-Mustach.yml`：
+
 ```yaml
 name: Build Mustach
 
@@ -4752,6 +4754,10 @@ jobs:
       - name: 测试
         run: cd build; ctest -C Release
 ```
+
+### 2. Jenkins 或其他 CI/CD
+
+- 步骤同手动编译，只需在流水线脚本适配上述流程即可。
 
 ---
 

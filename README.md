@@ -3028,3 +3028,19 @@ pipeline {
 - [libkiwix README](https://github.com/kiwix/libkiwix/blob/main/README.md)
 - [GitHub Actions 官方文档](https://docs.github.com/en/actions)
 - [Jenkins 官方文档](https://www.jenkins.io/doc/)
+
+---
+
+# 问题二十六、请帮我给一个ninja的中文文档
+
+---
+
+# 问题二十七、请帮我给一个ninja的中文版的技术文档
+
+----
+
+# 问题二十八、请帮我给一个ninja的中文官方手册
+
+---
+
+# 问题二十九、请帮我给一个ninja的官方手册，语言为中文。

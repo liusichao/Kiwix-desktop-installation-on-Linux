@@ -4555,6 +4555,7 @@ make
 ## 四、自动化批量构建（CI/CD 示例）
 
 以 GitHub Actions 为例，自动化多平台批量构建流程如下：
+### 1. 在仓库根目录创建 `.github/workflows/build-pugixml.yml`：
 
 ```yaml
 name: Build Pugixml
@@ -4599,6 +4600,10 @@ jobs:
       - name: 测试（可选）
         run: cd build && ctest
 ```
+
+### 2. Jenkins 或其他 CI/CD
+
+- 步骤同手动编译，只需在流水线脚本适配上述流程即可。
 
 ---
 

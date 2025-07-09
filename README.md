@@ -2427,3 +2427,285 @@ rm -rf builddir
 ---
 
 如遇具体报错，请贴出终端输出以便进一步协助。
+
+---
+
+# 问题二十二、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。
+# libkiwix 使用 Meson 和 Ninja 自动化批量编译详解（基于官方 README）
+
+## 1. 环境准备
+
+### 安装依赖
+
+```bash
+sudo apt update
+sudo apt install git python3 python3-pip ninja-build pkg-config
+sudo apt install zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+```
+- Meson 推荐使用最新版：  
+  ```bash
+  sudo pip3 install --upgrade meson
+  ```
+
+### 依赖说明
+- Meson ≥ 0.45
+- Ninja
+- pkg-config
+- 其他依赖库见上
+
+---
+
+## 2. 获取源码
+
+```bash
+git clone https://github.com/kiwix/libkiwix.git
+cd libkiwix
+```
+
+如需特定版本可查看 tag 并切换：
+
+```bash
+git tag                  # 查看所有版本
+git checkout v8.2.0      # 示例：切换到 8.2.0 版本
+```
+
+---
+
+## 3. 使用 Meson 配置构建目录
+
+推荐 out-of-tree 构建（即不在源码树内编译）：
+
+```bash
+meson setup builddir
+```
+- 可加参数指定 Release 构建：
+  ```bash
+  meson setup builddir --buildtype=release
+  ```
+- 如需静态库，可加参数（但一般默认动态库足够）：
+  ```bash
+  meson setup builddir --default-library=static
+  ```
+
+---
+
+## 4. 使用 Ninja 编译
+
+进入构建目录：
+
+```bash
+cd builddir
+ninja
+```
+或直接一步编译（在源码根目录下）：
+
+```bash
+ninja -C builddir
+```
+
+---
+
+## 5. 安装
+
+```bash
+sudo ninja install
+```
+- 默认会安装到 `/usr/local/lib` 和 `/usr/local/include`，可通过 Meson 参数自定义前缀：
+  ```bash
+  meson setup builddir --prefix=/your/custom/prefix
+  ```
+
+---
+
+## 6. 验证
+
+```bash
+ls /usr/local/lib | grep kiwix
+ls /usr/local/include | grep kiwix
+```
+或检查 `libkiwix.so`、头文件等是否安装到指定前缀。
+
+---
+
+## 7. 自动化批量构建建议
+
+- 将上述步骤写为 Shell 脚本，适合 CI/CD 或批量部署。
+- 可增加参数自动切换分支或版本。
+- 如依赖库需定制，也请提前批量编译好。
+- **可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建：**
+  - 针对 GitHub Actions，可新建 `.github/workflows/build.yml`，定义自动化流程。
+  - 针对 Jenkins，可编写 Jenkinsfile 或 Freestyle Job 配置，自动拉取、编译、安装。
+  - 可参照如下 GitHub Actions 示例：
+    ```yaml
+    name: Build libkiwix
+
+    on: [push, pull_request]
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Install dependencies
+          run: |
+            sudo apt update
+            sudo apt install -y python3 python3-pip ninja-build pkg-config zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+            sudo pip3 install --upgrade meson
+        - name: Build
+          run: |
+            meson setup builddir
+            ninja -C builddir
+        - name: Install (optional)
+          run: |
+            sudo ninja -C builddir install
+    ```
+
+---
+
+## 8. 清理构建产物（可选）
+
+```bash
+rm -rf builddir
+```
+
+---
+
+## 9. 官方参考
+
+- [libkiwix README](https://github.com/kiwix/libkiwix/blob/main/README.md)
+
+---
+
+如遇具体报错，请贴出终端输出以便进一步协助。
+
+---
+
+# 问题二十三、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请给出详细的操作步骤
+# libkiwix Meson+Ninja 自动化批量构建：CI/CD (以 GitHub Actions/Jenkins 为例)
+
+---
+
+## 1. GitHub Actions 自动化构建配置
+
+### 1.1 新建工作流文件
+
+在 libkiwix 仓库根目录下新建 `.github/workflows/build.yml`：
+
+```yaml
+name: Build and Test libkiwix
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip ninja-build pkg-config \
+            zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+          sudo pip3 install --upgrade meson
+
+      - name: Configure (meson)
+        run: meson setup builddir --buildtype=release
+
+      - name: Build (ninja)
+        run: ninja -C builddir
+
+      - name: Install (optional, test)
+        run: sudo ninja -C builddir install
+
+      - name: Test (可选)
+        run: |
+          cd builddir
+          meson test || true
+```
+
+**说明：**
+- 可根据实际分支调整 `branches`。
+- `Install`、`Test` 步骤可按需开启或精简。
+- 可加 cache、artifact 上传等增强功能。
+
+---
+
+## 2. Jenkins 自动化构建配置
+
+### 2.1 基础思路
+
+- 新建 Freestyle 或 Pipeline Job
+- 拉取源码，安装依赖，meson+ ninja 编译
+
+### 2.2 Pipeline 示例（Jenkinsfile）
+
+在项目根目录新建 `Jenkinsfile`：
+
+```groovy
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+    stage('Install Dependencies') {
+      steps {
+        sh '''
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip ninja-build pkg-config \
+            zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+          sudo pip3 install --upgrade meson
+        '''
+      }
+    }
+    stage('Configure') {
+      steps {
+        sh 'meson setup builddir --buildtype=release'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'ninja -C builddir'
+      }
+    }
+    stage('Install (optional)') {
+      steps {
+        sh 'sudo ninja -C builddir install'
+      }
+    }
+    stage('Test (optional)') {
+      steps {
+        sh 'cd builddir && meson test || true'
+      }
+    }
+  }
+}
+```
+
+---
+
+## 3. 高级建议
+
+- 可在 CI 配置里加缓存（如 apt/yarn/pip）和 artifacts（如构建产物上传）。
+- 可按需并行多平台/多版本编译。
+- 可在触发器中加定时、标签、PR 检查等。
+- 可自动上传二进制到 Release、包管理等。
+
+---
+
+## 4. 参考链接
+
+- [GitHub Actions 官方文档](https://docs.github.com/en/actions)
+- [Jenkins Pipeline 官方文档](https://www.jenkins.io/doc/book/pipeline/)
+- [libkiwix 官方 README](https://github.com/kiwix/libkiwix/blob/main/README.md)
+
+---
+
+如有具体平台或报错需求，可贴出详细信息获取进一步帮助。

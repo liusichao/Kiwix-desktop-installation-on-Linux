@@ -2307,121 +2307,123 @@ make clean
 
 ---
 
-# 问题二十一、将以上对话转化为markdown格式文件
-# 编译常用开源工具/库自动化批量构建对话整理
+# 问题二十一、请根据https://github.com/kiwix/libkiwix.git里的readme文档，使用meson和ninja编译 libkiwix（如需自动化批量构建），请给出详细的每个步骤和细节。
+# libkiwix 使用 Meson 和 Ninja 自动化批量编译详解（基于官方 README）
+
+## 1. 环境准备
+
+### 安装依赖
+
+```bash
+sudo apt update
+sudo apt install git python3 python3-pip ninja-build pkg-config
+sudo apt install zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+```
+- Meson 推荐使用最新版：  
+  ```bash
+  sudo pip3 install --upgrade meson
+  ```
+
+### 依赖说明
+- Meson ≥ 0.45
+- Ninja
+- pkg-config
+- 其他依赖库见上
 
 ---
 
-## Q1  
-**用户：**  
-编译 libmicrohttpd （如需自动化批量构建），请给出详细的每个步骤和细节。
+## 2. 获取源码
 
-**Copilot：**  
-详见 [libmicrohttpd-compile-guide.md](#libmicrohttpd-compile-guide.md) 内容。
+```bash
+git clone https://github.com/kiwix/libkiwix.git
+cd libkiwix
+```
 
----
+如需特定版本可查看 tag 并切换：
 
-## Q2  
-**用户：**  
-编译 zlib1g-dev（如需自动化批量构建），请给出详细的每个步骤和细节。
-
-**Copilot：**  
-详见 [zlib1g-dev-compile-guide.md](#zlib1g-dev-compile-guide.md) 内容。
+```bash
+git tag                  # 查看所有版本
+git checkout v8.2.0      # 示例：切换到 8.2.0 版本
+```
 
 ---
 
-## Q3  
-**用户：**  
-编译 libzip-dev（如需自动化批量构建），请给出详细的每个步骤和细节。
+## 3. 使用 Meson 配置构建目录
 
-**Copilot：**  
-详见 [libzip-dev-compile-guide.md](#libzip-dev-compile-guide.md) 内容。
+推荐 out-of-tree 构建（即不在源码树内编译）：
 
----
-
-## Q4  
-**用户：**  
-编译 libssl-dev（如需自动化批量构建），请给出详细的每个步骤和细节。
-
-**Copilot：**  
-详见 [libssl-dev-compile-guide.md](#libssl-dev-compile-guide.md) 内容。
-
----
-
-## Q5  
-**用户：**  
-编译 ninja（如需自动化批量构建），请给出详细的每个步骤和细节。
-
-**Copilot：**  
-详见 [ninja-compile-guide.md](#ninja-compile-guide.md) 内容。
+```bash
+meson setup builddir
+```
+- 可加参数指定 Release 构建：
+  ```bash
+  meson setup builddir --buildtype=release
+  ```
+- 如需静态库，可加参数（但一般默认动态库足够）：
+  ```bash
+  meson setup builddir --default-library=static
+  ```
 
 ---
 
-## Q6  
-**用户：**  
-编译 meson（如需自动化批量构建），请给出详细的每个步骤和细节。
+## 4. 使用 Ninja 编译
 
-**Copilot：**  
-详见 [meson-compile-guide.md](#meson-compile-guide.md) 内容。
+进入构建目录：
 
----
+```bash
+cd builddir
+ninja
+```
+或直接一步编译（在源码根目录下）：
 
-## Q7  
-**用户：**  
-编译 kiwix-serve（如需自动化批量构建），请给出详细的每个步骤和细节。
-
-**Copilot：**  
-详见 [kiwix-serve-compile-guide.md](#kiwix-serve-compile-guide.md) 内容。
+```bash
+ninja -C builddir
+```
 
 ---
 
-## Q8  
-**用户：**  
-编译 kiwix-manage（如需自动化批量构建），请给出详细的每个步骤和细节。
+## 5. 安装
 
-**Copilot：**  
-详见 [kiwix-manage-compile-guide.md](#kiwix-manage-compile-guide.md) 内容。
-
----
-
-## Q9  
-**用户：**  
-编译 pkg-config（如需自动化批量构建），请给出详细的每个步骤和细节。
-
-**Copilot：**  
-详见 [pkg-config-compile-guide.md](#pkg-config-compile-guide.md) 内容。
+```bash
+sudo ninja install
+```
+- 默认会安装到 `/usr/local/lib` 和 `/usr/local/include`，可通过 Meson 参数自定义前缀：
+  ```bash
+  meson setup builddir --prefix=/your/custom/prefix
+  ```
 
 ---
 
-## Q10  
-**用户：**  
-编译 libssl（如需自动化批量构建），请给出详细的每个步骤和细节。
+## 6. 验证
 
-**Copilot：**  
-详见 [libssl-compile-guide.md](#libssl-compile-guide.md) 内容。
-
----
-
-## Q11  
-**用户：**  
-将以上对话转化为markdown格式文件
-
-**Copilot：**  
-（即本文件）
+```bash
+ls /usr/local/lib | grep kiwix
+ls /usr/local/include | grep kiwix
+```
+或检查 `libkiwix.so`、头文件等是否安装到指定前缀。
 
 ---
 
-## 附录：各工具/库详细编译指南
+## 7. 自动化批量构建建议
 
-- [libmicrohttpd-compile-guide.md](#libmicrohttpd-compile-guide.md)
-- [zlib1g-dev-compile-guide.md](#zlib1g-dev-compile-guide.md)
-- [libzip-dev-compile-guide.md](#libzip-dev-compile-guide.md)
-- [libssl-dev-compile-guide.md](#libssl-dev-compile-guide.md)
-- [ninja-compile-guide.md](#ninja-compile-guide.md)
-- [meson-compile-guide.md](#meson-compile-guide.md)
-- [kiwix-serve-compile-guide.md](#kiwix-serve-compile-guide.md)
-- [kiwix-manage-compile-guide.md](#kiwix-manage-compile-guide.md)
-- [pkg-config-compile-guide.md](#pkg-config-compile-guide.md)
-- [libssl-compile-guide.md](#libssl-compile-guide.md)
+- 将上述步骤写为 Shell 脚本，适合 CI/CD 或批量部署。
+- 可增加参数自动切换分支或版本。
+- 如依赖库需定制，也请提前批量编译好。
 
-（以上附录内容详见本项目相关 Markdown 文件）
+---
+
+## 8. 清理构建产物（可选）
+
+```bash
+rm -rf builddir
+```
+
+---
+
+## 9. 官方参考
+
+- [libkiwix README](https://github.com/kiwix/libkiwix/blob/main/README.md)
+
+---
+
+如遇具体报错，请贴出终端输出以便进一步协助。

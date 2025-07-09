@@ -4852,6 +4852,7 @@ target_link_libraries(mytest gtest gtest_main)
 ## 三、自动化批量构建（CI/CD 示例）
 
 ### 1. GitHub Actions 示例
+### 1. 在仓库根目录创建 `.github/workflows/build - Google test.yml`：
 
 ```yaml
 name: Build and Test GoogleTest

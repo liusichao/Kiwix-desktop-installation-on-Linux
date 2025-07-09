@@ -4217,6 +4217,78 @@ test('基础测试', executable('test', 'test.c'))
 ---
 
 # 问题三十四、编译 ICU （如需自动化批量构建），请给出详细的每个步骤和细节。
+sudo apt install -y build-essential autoconf libtool pkg-config
+```
+
+      - name: 安装依赖
+        run: sudo apt-get update && sudo apt-get install -y build-essential autoconf libtool pkg-config
+      - name: 下载 ICU 源码
+        run: |
+          wget https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-src.tgz
+          tar xf icu4c-74_2-src.tgz
+      - name: 配置
+        run: cd icu/source && ./configure --prefix=${{ github.workspace }}/icu-install
+      - name: 编译
+        run: cd icu/source && make -j$(nproc)
+      - name: 安装
+        run: cd icu/source && make install
+      - name: 验证
+        run: ${{ github.workspace }}/icu-install/bin/icuinfo -v
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: brew install autoconf libtool pkg-config
+      - name: 下载 ICU 源码
+        run: |
+          wget https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-src.tgz
+          tar xf icu4c-74_2-src.tgz
+      - name: 配置
+        run: cd icu/source && ./configure --prefix=${{ github.workspace }}/icu-install
+      - name: 编译
+        run: cd icu/source && make -j$(sysctl -n hw.logicalcpu)
+      - name: 安装
+        run: cd icu/source && make install
+      - name: 验证
+        run: ${{ github.workspace }}/icu-install/bin/icuinfo -v
+```
+
+### 2. Jenkins、其他 CI/CD 流水线
+
+流程类似，通常分为如下步骤：
+
+1. 拉取源码（如 wget 或 git clone）
+2. 安装依赖
+3. `./configure` 配置
+4. `make -jN` 编译
+5. `make install` 安装
+6. 可选：运行测试（`make check`）
+
+---
+
+## 四、常见问题与建议
+
+- **并行编译**：使用 `-j$(nproc)` 或指定线程数加速编译。
+- **多平台支持**：可针对不同平台编写 matrix 策略批量构建。
+- **构建产物管理**：建议通过 CI/CD 上传构建产物（如 .zip/.tar.gz 包）。
+- **定制参数**：通过 `configure` 或 CMake 参数自定义 ICU 功能、安装路径等。
+- **清理构建**：`make clean` 可清理中间文件，保持环境整洁。
+
+---
+
+## 五、参考资料
+
+- [ICU 官方文档](https://unicode-org.github.io/icu/userguide/)
+- [ICU 下载页面](https://icu.unicode.org/download)
+- [ICU GitHub](https://github.com/unicode-org/icu)
+- [ICU4C README](https://github.com/unicode-org/icu/blob/main/icu4c/readme.html)
+
+---
+如需针对特殊平台或复杂批量构建需求，可继续提问！
+
+---
 
 # 问题三十五、编译 Pugixml（如需自动化批量构建），请给出详细的每个步骤和细节。
 

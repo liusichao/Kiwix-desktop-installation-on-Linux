@@ -10,7 +10,7 @@ https://www.kiwix.org
 **GitHub 仓库（主仓库）：**
 https://github.com/kiwix/kiwix-tools
 https://github.com/kiwix/kiwix-js
-https://github.com/kiwix/kiwix-lib
+https://github.com/kiwix/libkiwix
 
 **下载页面**
 https://www.kiwix.org/downloads/
@@ -39,9 +39,9 @@ Kiwix 组织（https://github.com/kiwix）下有多个仓库，每个仓库负�
 该仓库包含一组命令行工具，比如 kiwix-serve（ZIM 文件的 HTTP 服务器），方便在本地或局域网内提供离线内容服务。
 项目地址：https://github.com/kiwix/kiwix-tools
 
-**4.kiwix-libkiwix**
+**4.libkiwix**
 提供 C/C++ 的 Kiwix 库，是开发 Kiwix 相关应用的底层代码基础。
-项目地址：https://github.com/kiwix/kiwix-libkiwix
+项目地址：https://github.com/kiwix/libkiwix
 
 **5.kiwix-android**
 Kiwix 的安卓客户端源码，允许用户在 Android 设备上使用 Kiwix 离线浏览功能。
@@ -164,7 +164,7 @@ ninja-build
 meson
 kiwix-build
 kiwix-tools
-kiwix-libkiwix
+libkiwix
 请给出详细的安装细节和每个安装步骤，并加以详细说明。
 
 下面是 Kiwix Desktop 在 Linux（以 Debian/Ubuntu 为例）下从源码编译的详细步骤，包含所有关键依赖包的安装和每步说明。适合有开发经验的用户或希望进行深度定制的场景。
@@ -207,13 +207,13 @@ sudo apt install git cmake build-essential zlib1g-dev libzip-dev openssl libssl-
 
 ## 3. 构建 Kiwix 相关依赖
 
-Kiwix Desktop 依赖 `kiwix-libkiwix`、`kiwix-tools`、`libzim` 等，可以选择用包管理器安装（部分旧版仓库自带），也可以全部用源码编译以获得最新版和更好兼容性。
+Kiwix Desktop 依赖 `libkiwix`、`kiwix-tools`、`libzim` 等，可以选择用包管理器安装（部分旧版仓库自带），也可以全部用源码编译以获得最新版和更好兼容性。
 
-### 3.1 编译 kiwix-libkiwix
+### 3.1 编译 libkiwix
 
 ```bash
-git clone https://github.com/kiwix/kiwix-libkiwix.git
-cd kiwix-libkiwix
+git clone https://github.com/kiwix/libkiwix.git
+cd libkiwix
 mkdir build && cd build
 cmake .. -G Ninja
 ninja
@@ -221,7 +221,7 @@ sudo ninja install
 cd ../..
 ```
 **说明：**  
-kiwix-lib 是 Kiwix 系列程序的核心底层库，实现 ZIM 文件的解析和访问。
+libkiwix 是 Kiwix 系列程序的核心底层库，实现 ZIM 文件的解析和访问。
 
 ---
 
@@ -310,7 +310,7 @@ kiwix-desktop
 
 ## 1. 简介
 
-`kiwix-build` 是 Kiwix 官方提供的自动化构建工具链，适用于批量构建 Kiwix 及其相关项目（如 kiwix-lib、kiwix-tools、kiwix-desktop 等）。它支持本地和交叉编译，特别适合需要构建多平台安装包或做持续集成的开发者。
+`kiwix-build` 是 Kiwix 官方提供的自动化构建工具链，适用于批量构建 Kiwix 及其相关项目（如 libkiwix、kiwix-tools、kiwix-desktop 等）。它支持本地和交叉编译，特别适合需要构建多平台安装包或做持续集成的开发者。
 
 ---
 
@@ -367,10 +367,10 @@ kiwix-build 支持多种构建配置。一般流程如下：
 
 ---
 
-## 6. 构建某个项目（以 kiwix-libkiwix 为例）
+## 6. 构建某个项目（以 libkiwix 为例）
 
 ```bash
-./kiwix-build kiwix-libkiwix
+./kiwix-build libkiwix
 ```
 
 构建结果会保存在 `build/` 目录下。

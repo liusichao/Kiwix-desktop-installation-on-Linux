@@ -564,8 +564,8 @@ sudo apt install git build-essential cmake ninja-build zlib1g-dev libzip-dev lib
 ## 3. 获取源码
 
 ```bash
-git clone https://github.com/kiwix/kiwix-libkiwix.git
-cd kiwix-libkiwix
+git clone https://github.com/kiwix/libkiwix.git
+cd libkiwix
 ```
 
 ---
@@ -637,7 +637,7 @@ make clean
 
 ## 9. 参考链接
 
-- [kiwix-libkiwix GitHub 仓库](https://github.com/kiwix/kiwix-libkiwix)
+- [libkiwix GitHub 仓库](https://github.com/kiwix/libkiwix)
 - [Kiwix 官方文档](https://wiki.kiwix.org/wiki/Kiwix)
 
 ---

@@ -1927,3 +1927,235 @@ make clean
 ---
 
 如遇具体编译或安装报错，请贴出终端信息以便进一步协助。
+
+---
+
+# 问题十八、编译 kiwix-manage（如需自动化批量构建），请给出详细的每个步骤和细节。
+# kiwix-manage 源码编译与自动化批量构建指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+`kiwix-manage` 是 Kiwix 项目用于管理 ZIM 文件（如添加、移除、列举条目等）的命令行工具。自动化批量构建可用于部署或集成最新版 `kiwix-manage` 到自己的离线内容分发系统。
+
+---
+
+## 2. 安装基础依赖
+
+```bash
+sudo apt update
+sudo apt install git build-essential cmake ninja-build pkg-config
+sudo apt install zlib1g-dev libzim-dev libmicrohttpd-dev libcurl4-openssl-dev libssl-dev libzip-dev
+```
+- 如需自编译依赖（如 libzim、libmicrohttpd、libcurl、libzip、libssl、zlib），请在此之前按各自指南源码安装。
+
+---
+
+## 3. 获取 kiwix-tools 源码
+
+`kiwix-manage` 是 `kiwix-tools` 仓库中的子工具：
+
+```bash
+git clone https://github.com/kiwix/kiwix-tools.git
+cd kiwix-tools
+```
+
+如需特定版本：
+
+```bash
+git tag              # 查看所有版本
+git checkout v3.7.0  # 示例：切换到 3.7.0 版本
+```
+
+---
+
+## 4. 配置与构建
+
+建议使用 Ninja 构建系统：
+
+```bash
+mkdir build
+cd build
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
+ninja kiwix-manage
+```
+- 如果需要自定义依赖库或头文件路径，添加 `-DCMAKE_PREFIX_PATH`，如：
+  ```bash
+  cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="/your/custom/libzim;/your/custom/libmicrohttpd"
+  ```
+
+---
+
+## 5. 安装
+
+```bash
+sudo ninja install
+```
+或手动复制（仅安装 kiwix-manage）：
+
+```bash
+sudo cp kiwix-manage /usr/local/bin/
+```
+- 安装路径默认 `/usr/local/bin/kiwix-manage`，可通过 `-DCMAKE_INSTALL_PREFIX` 自定义。
+
+---
+
+## 6. 验证安装
+
+```bash
+kiwix-manage --help
+which kiwix-manage
+```
+- 应输出帮助信息和安装路径。
+
+---
+
+## 7. 自动化批量构建建议
+
+- 将上述步骤写入 shell 脚本或集成到 CI/CD 流程。
+- 推荐先批量编译所有依赖库，再批量编译 kiwix-tools。
+- 支持多平台交叉编译，可在 CMake 阶段指定目标平台参数。
+
+---
+
+## 8. 清理构建产物（可选）
+
+```bash
+ninja clean
+```
+或
+```bash
+make clean
+```
+
+---
+
+## 9. 常见问题
+
+- **找不到依赖库**：需确保所有依赖（libzim、libmicrohttpd 等）已安装，且头文件和库路径在系统搜索路径中。
+- **链接新库失败**：执行 `sudo ldconfig`。
+- **权限问题**：安装步骤需加 `sudo`。
+
+---
+
+## 10. 参考链接
+
+- [kiwix-tools GitHub](https://github.com/kiwix/kiwix-tools)
+- [Kiwix 编译依赖说明](https://github.com/kiwix/kiwix-tools#build-dependencies)
+- [Kiwix 官方文档](https://wiki.kiwix.org/wiki/Kiwix)
+
+---
+
+如遇具体编译或安装报错，请贴出终端信息以便进一步协助。
+
+---
+
+# 问题十九、编译 pkg-config（如需自动化批量构建），请给出详细的每个步骤和细节。
+# pkg-config 源码编译与自动化批量构建指南（以 Debian/Ubuntu 为例）
+
+## 1. 简介
+
+`pkg-config` 是 Linux/Unix 下常用的开发工具，用于查询已安装库的头文件路径、库路径及版本信息。自动化批量构建时，源码编译 `pkg-config` 可获得最新版或特定参数支持。
+
+---
+
+## 2. 安装基础依赖
+
+```bash
+sudo apt update
+sudo apt install git build-essential autoconf automake libtool gettext
+```
+- `gettext` 用于国际化支持。
+
+---
+
+## 3. 获取 pkg-config 源码
+
+可从 [pkg-config 官网](https://www.freedesktop.org/wiki/Software/pkg-config/) 或 [GitHub 镜像](https://github.com/pkgconf/pkgconf) 获取。
+
+以官方源码为例：
+
+```bash
+wget https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
+tar -xzvf pkg-config-0.29.2.tar.gz
+cd pkg-config-0.29.2
+```
+
+或用 GitHub 镜像（如需最新版）：
+
+```bash
+git clone https://github.com/pkgconf/pkgconf.git
+cd pkgconf
+```
+
+---
+
+## 4. 配置
+
+### 推荐参数
+- 建议禁用自带的 glib 支持，减少依赖：
+  ```bash
+  ./configure --with-internal-glib --prefix=/usr/local
+  ```
+- `--prefix` 指定安装路径（可根据自动化需求自定）
+- 可用 `./configure --help` 查看全部参数
+
+---
+
+## 5. 编译
+
+```bash
+make -j$(nproc)
+```
+
+---
+
+## 6. 安装
+
+```bash
+sudo make install
+```
+- 安装到 `/usr/local/bin/pkg-config`（如用默认前缀）
+
+---
+
+## 7. 验证安装
+
+```bash
+pkg-config --version
+which pkg-config
+```
+- 应输出版本号和二进制安装路径
+
+---
+
+## 8. 自动化批量构建建议
+
+- 将上述步骤写入 shell 脚本，批量部署到多台机器或 CI/CD 环境。
+- 可通过参数灵活配置安装路径、日志输出等。
+
+---
+
+## 9. 清理构建产物（可选）
+
+```bash
+make clean
+```
+
+---
+
+## 10. 常见问题
+
+- **找不到头文件或依赖**：建议加 `--with-internal-glib` 避免外部依赖问题。
+- **权限问题**：安装步骤需 `sudo`。
+- **PATH 问题**：如未覆盖系统 pkg-config，确保 `/usr/local/bin` 在 `PATH` 环境变量中。
+
+---
+
+## 11. 参考链接
+
+- [pkg-config 官方文档](https://www.freedesktop.org/wiki/Software/pkg-config/)
+- [pkgconf GitHub 镜像](https://github.com/pkgconf/pkgconf)
+
+---
+
+如遇具体报错，可贴出终端信息以便进一步协助。

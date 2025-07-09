@@ -367,10 +367,10 @@ kiwix-build 支持多种构建配置。一般流程如下：
 
 ---
 
-## 6. 构建某个项目（以 kiwix-lib 为例）
+## 6. 构建某个项目（以 kiwix-libkiwix 为例）
 
 ```bash
-./kiwix-build kiwix-lib
+./kiwix-build kiwix-libkiwix
 ```
 
 构建结果会保存在 `build/` 目录下。

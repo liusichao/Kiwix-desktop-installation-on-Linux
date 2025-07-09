@@ -2709,3 +2709,150 @@ pipeline {
 ---
 
 如有具体平台或报错需求，可贴出详细信息获取进一步帮助。
+
+---
+
+# 问题二十四、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请分别给出在GitHub Actions与Jenkins详细的构建步骤和方法
+# libkiwix 自动化批量构建：GitHub Actions 与 Jenkins 详细配置步骤
+
+---
+
+## 一、使用 GitHub Actions 自动批量构建
+
+### 步骤 1：新建工作流文件
+
+在 libkiwix 仓库根目录下创建 `.github/workflows/build.yml` 文件。
+
+### 步骤 2：填写工作流内容
+
+```yaml
+name: Build libkiwix
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装依赖
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip ninja-build pkg-config \
+            zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+          sudo pip3 install --upgrade meson
+
+      - name: 配置 (meson)
+        run: meson setup builddir --buildtype=release
+
+      - name: 编译 (ninja)
+        run: ninja -C builddir
+
+      - name: 安装（可选）
+        run: sudo ninja -C builddir install
+
+      - name: 测试（可选）
+        run: |
+          cd builddir
+          meson test || true
+```
+
+### 步骤 3：推送代码到 GitHub
+
+- 将 `.github/workflows/build.yml` 提交推送到远程仓库。
+- 每次 push 或 PR，GitHub Actions 会自动在 Ubuntu 虚拟机上完成上述编译流程。
+
+---
+
+## 二、使用 Jenkins 自动批量构建
+
+### 步骤 1：准备 Jenkins 环境
+
+- 安装 Jenkins（参考[官方文档](https://www.jenkins.io/doc/book/installing/)）。
+- 安装必要插件（推荐：Git、Pipeline）。
+
+### 步骤 2：新建构建任务
+
+- 登录 Jenkins，点击“新建任务”。
+- 选择“流水线(Pipeline)”类型，填写名称，创建。
+
+### 步骤 3：配置 Pipeline（流水线）
+
+#### 方法 A：在 Jenkins Web 界面填写 Pipeline 脚本
+
+在 Pipeline 配置中粘贴如下内容：
+
+```groovy
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+    stage('Install Dependencies') {
+      steps {
+        sh '''
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip ninja-build pkg-config \
+            zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+          sudo pip3 install --upgrade meson
+        '''
+      }
+    }
+    stage('Configure') {
+      steps {
+        sh 'meson setup builddir --buildtype=release'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'ninja -C builddir'
+      }
+    }
+    stage('Install (optional)') {
+      steps {
+        sh 'sudo ninja -C builddir install'
+      }
+    }
+    stage('Test (optional)') {
+      steps {
+        sh 'cd builddir && meson test || true'
+      }
+    }
+  }
+}
+```
+
+#### 方法 B：在项目根目录添加 `Jenkinsfile`
+
+- 将上述脚本保存为 `Jenkinsfile`，提交到仓库。
+- 在 Jenkins 新建任务时选择“流水线脚本来自 SCM”（即选用此文件）。
+
+### 步骤 4：保存任务并运行
+
+- 点击“保存”，手动或定时触发构建。
+- Jenkins 会自动拉取源码、安装依赖、编译、安装和可选测试。
+
+---
+
+## 三、常见建议与问题解决
+
+- **依赖库需提前准备**：如 libzim、libmicrohttpd 等建议提前批量自动化构建后装入 CI 环境中，或写入依赖安装步骤。
+- **缓存优化**：对于依赖不频繁变更的项目，可启用缓存机制减少安装时间。
+- **多平台支持**：可用 matrix 策略（GitHub Actions）或 Jenkins 多节点，实现多平台或多架构批量构建。
+- **构建产物管理**：可用 artifacts（GitHub Actions）或归档（Jenkins）保存和管理构建好的二进制文件或日志。
+
+---
+
+## 参考资料
+
+- [libkiwix 官方 README](https://github.com/kiwix/libkiwix/blob/main/README.md)
+- [GitHub Actions 文档](https://docs.github.com/en/actions)
+- [Jenkins Pipeline 文档](https://www.jenkins.io/doc/book/pipeline/)

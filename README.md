@@ -2856,3 +2856,175 @@ pipeline {
 - [libkiwix 官方 README](https://github.com/kiwix/libkiwix/blob/main/README.md)
 - [GitHub Actions 文档](https://docs.github.com/en/actions)
 - [Jenkins Pipeline 文档](https://www.jenkins.io/doc/book/pipeline/)
+
+---
+
+# 问题二十五、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请分别给出在GitHub Actions与Jenkins详细的构建步骤和操作方法，以及使用的工具。
+# libkiwix 自动批量构建：GitHub Actions 与 Jenkins 详细操作指南
+
+---
+
+## 一、GitHub Actions 自动批量构建
+
+### 1. 工具与前提
+
+- **平台**：GitHub Actions（无需自建服务器，GitHub 官方云端 CI/CD）
+- **核心工具**：
+  - actions/checkout
+  - apt 包管理器（安装依赖）
+  - python3-pip、meson、ninja-build、pkg-config
+  - 可选：actions/upload-artifact、actions/cache
+
+### 2. 操作步骤
+
+#### 2.1 新建工作流文件
+
+在 libkiwix 仓库根目录下创建 `.github/workflows/build.yml` 文件。
+
+#### 2.2 编辑工作流内容
+
+```yaml
+name: Build libkiwix
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装依赖
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip ninja-build pkg-config \
+            zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+          sudo pip3 install --upgrade meson
+
+      - name: Meson 配置
+        run: meson setup builddir --buildtype=release
+
+      - name: Ninja 编译
+        run: ninja -C builddir
+
+      - name: 安装（可选）
+        run: sudo ninja -C builddir install
+
+      - name: 测试（可选）
+        run: |
+          cd builddir
+          meson test || true
+
+      # 可选：上传二进制产物
+      # - name: 上传构建产物
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: libkiwix-build
+      #     path: builddir/
+```
+
+#### 2.3 推送并触发
+
+- 提交 `.github/workflows/build.yml` 到仓库。
+- 每次 push/PR 会自动触发构建。
+
+---
+
+## 二、Jenkins 自动批量构建
+
+### 1. 工具与前提
+
+- **平台**：Jenkins（需自建或云端 Jenkins 服务）
+- **核心工具**：
+  - Jenkins（推荐 LTS 版）
+  - Git 插件
+  - Pipeline 插件
+  - 构建节点需有：apt、python3-pip、meson、ninja-build、pkg-config
+
+### 2. 操作步骤
+
+#### 2.1 部署 Jenkins
+
+- 按[官方文档](https://www.jenkins.io/doc/book/installing/)安装 Jenkins 服务及基础插件（Git、Pipeline）。
+
+#### 2.2 新建流水线任务
+
+- 进入 Jenkins → 新建任务 → 输入名称 → 选择“流水线(Pipeline)” → 确定。
+
+#### 2.3 配置 Pipeline 脚本
+
+可在“流水线”配置区直接粘贴脚本，或在仓库根目录新建 `Jenkinsfile` 并配置任务读取。
+
+```groovy
+pipeline {
+  agent any
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+    stage('Install Dependencies') {
+      steps {
+        sh '''
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip ninja-build pkg-config \
+            zlib1g-dev libcurl4-openssl-dev libzim-dev libmicrohttpd-dev libssl-dev libzip-dev
+          sudo pip3 install --upgrade meson
+        '''
+      }
+    }
+    stage('Configure') {
+      steps {
+        sh 'meson setup builddir --buildtype=release'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'ninja -C builddir'
+      }
+    }
+    stage('Install (optional)') {
+      steps {
+        sh 'sudo ninja -C builddir install'
+      }
+    }
+    stage('Test (optional)') {
+      steps {
+        sh 'cd builddir && meson test || true'
+      }
+    }
+    stage('Archive Artifacts (optional)') {
+      steps {
+        archiveArtifacts artifacts: 'builddir/**/*', onlyIfSuccessful: true
+      }
+    }
+  }
+}
+```
+
+#### 2.4 保存并运行
+
+- 保存任务配置。
+- 手动或定时触发构建，Jenkins 会自动完成拉取、依赖安装、编译、测试、归档。
+
+---
+
+## 三、补充建议
+
+- **依赖管理**：建议所有依赖自动安装在流水线中，确保环境一致性。
+- **缓存加速**：可用 actions/cache 或 Jenkins Cache 插件缓存依赖。
+- **多平台并行**：GitHub Actions 支持 matrix 策略，Jenkins 可用多节点并发。
+- **归档产物**：通过上传 artifact 或 archiveArtifacts 保留二进制和日志。
+- **通知集成**：可集成邮件、Slack、微信等通知插件。
+
+---
+
+## 参考资料
+
+- [libkiwix README](https://github.com/kiwix/libkiwix/blob/main/README.md)
+- [GitHub Actions 官方文档](https://docs.github.com/en/actions)
+- [Jenkins 官方文档](https://www.jenkins.io/doc/)

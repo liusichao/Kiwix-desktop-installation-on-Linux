@@ -4624,5 +4624,153 @@ jobs:
 ---
 
 # 问题三十六、编译 Mustache（如需自动化批量构建），请给出详细的每个步骤和细节。
+# Mustache 编译与自动化批量构建详细步骤
+
+---
+
+## 一、Mustache 简介
+
+Mustache 是一种广泛应用的逻辑无关模板引擎，拥有多种实现（C、C++、Java、Python、JavaScript 等）。本指引以 C/C++ 版本（如 [mustache-c](https://github.com/hoisie/mustache) 或 [mustach](https://github.com/cybercatalyst/mustach)）为例，介绍源码编译和自动化批量构建流程。
+
+---
+
+## 二、获取源码
+
+以 [mustach](https://github.com/cybercatalyst/mustach) 为例：
+
+```bash
+git clone https://github.com/cybercatalyst/mustach.git
+cd mustach
+```
+
+---
+
+## 三、手动编译步骤
+
+### 1. 安装依赖
+
+**Linux/macOS:**
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake
+# 或 macOS 下
+brew install cmake
+```
+
+**Windows:**
+- 推荐使用 MSYS2/MinGW 或 Visual Studio
+- 安装 CMake 和编译器
+
+### 2. 使用 CMake 构建
+
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+```
+
+- 默认会在 `build` 目录下生成静态和动态库以及可执行文件。
+- 可用 `cmake -DBUILD_SHARED_LIBS=ON ..` 控制生成动态库。
+
+### 3. 测试（可选）
+
+```bash
+ctest
+# 或
+make test
+```
+
+### 4. 安装
+
+```bash
+sudo cmake --install .
+# 或
+sudo make install
+# 可通过 -DCMAKE_INSTALL_PREFIX=/your/path 自定义安装路径
+```
+
+### 5. 验证
+
+- 检查安装路径下的 `lib/`、`include/` 文件夹。
+- 可用 `ldd`、`nm`、`objdump` 等工具检查库文件。
+- 编写一个简单 main.cpp 验证头文件和链接库是否可用。
+
+---
+
+## 四、自动化批量构建（CI/CD 示例）
+
+以 GitHub Actions 为例，实现多平台自动化构建：
+
+```yaml
+name: Build Mustach
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: sudo apt-get update && sudo apt-get install -y cmake g++
+      - name: 配置
+        run: mkdir build && cd build && cmake ..
+      - name: 编译
+        run: cd build && cmake --build . --config Release
+      - name: 测试
+        run: cd build && ctest
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: brew install cmake
+      - name: 配置
+        run: mkdir build && cd build && cmake ..
+      - name: 编译
+        run: cd build && cmake --build . --config Release
+      - name: 测试
+        run: cd build && ctest
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 配置
+        run: mkdir build; cd build; cmake .. -A x64
+      - name: 编译
+        run: cd build; cmake --build . --config Release
+      - name: 测试
+        run: cd build; ctest -C Release
+```
+
+---
+
+## 五、常见问题与建议
+
+- **跨平台兼容**：建议优先选用 CMake 构建，适配主流 CI/CD。
+- **自定义构建选项**：可通过 `-DBUILD_SHARED_LIBS=ON`、`-DCMAKE_INSTALL_PREFIX=/your/path` 等参数灵活控制。
+- **批量构建产物管理**：可通过 CI/CD 工具自动归档和发布静态/动态库。
+- **测试集成**：建议集成 `ctest`，便于自动化验证功能正确性。
+- **头文件与库集成**：使用时注意 `include` 路径和 `link` 路径的配置。
+
+---
+
+## 六、参考资料
+
+- [mustach GitHub](https://github.com/cybercatalyst/mustach)
+- [Mustache 官方网站](https://mustache.github.io/)
+- [mustache-c GitHub](https://github.com/hoisie/mustache)
+- [CMake 官方文档](https://cmake.org/cmake/help/latest/)
+
+---
+
+如需特定版本、特殊平台或定制批量构建方案，可继续提问！
+
+---
 
 # 问题三十七、编译 Google Test （如需自动化批量构建），请给出详细的每个步骤和细节。

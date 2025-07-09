@@ -285,7 +285,7 @@ kiwix-desktop
 ## 6. 常见问题与建议
 
 - **依赖缺失/找不到库：**  
-  检查 `libzim`、`kiwix-lib`、`kiwix-tools` 是否都已正确编译并 `sudo ninja install`。
+  检查 `libzim`、`libkiwix`、`kiwix-tools` 是否都已正确编译并 `sudo ninja install`。
 - **Qt 版本冲突：**  
   确保所有 Qt 相关包为同一版本（建议全部用 Qt 5）。
 - **提示找不到命令：**  
@@ -382,7 +382,7 @@ kiwix-build 支持多种构建配置。一般流程如下：
 
 - 指定平台、架构或构建类型等参数（如交叉编译、release/debug）：
   ```bash
-  ./kiwix-build --target=kiwix-lib --type=release --platform=linux
+  ./kiwix-build --target=libkiwix --type=release --platform=linux
   ```
 
 - 支持的参数详见文档或 `--help` 输出。

@@ -4217,9 +4217,127 @@ test('基础测试', executable('test', 'test.c'))
 ---
 
 # 问题三十四、编译 ICU （如需自动化批量构建），请给出详细的每个步骤和细节。
+# ICU 编译与自动化批量构建详细步骤
+
+---
+
+## 一、ICU 简介
+
+ICU（International Components for Unicode）是广泛用于处理 Unicode 及国际化问题的跨平台库，支持 C/C++ 和 Java。此文档主要介绍 ICU4C（C/C++ 版本）的手动与自动化批量构建步骤。
+
+---
+
+## 二、编译 ICU 的详细步骤
+
+### 1. 获取 ICU 源码
+
+#### 方式一：从官网下载
+
+- [ICU Releases 下载页面](https://icu.unicode.org/download)
+- 选择对应版本（如 icu4c-74_2-src.tgz），下载后解压：
+
+```bash
+wget https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-src.tgz
+tar xf icu4c-74_2-src.tgz
+cd icu/source
+```
+
+#### 方式二：Git 克隆仓库
+
+```bash
+git clone https://github.com/unicode-org/icu.git
+cd icu/icu4c/source
+```
+
+### 2. 安装依赖
+
+根据平台安装基础编译工具：
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
 sudo apt install -y build-essential autoconf libtool pkg-config
 ```
 
+**CentOS/Fedora:**
+```bash
+sudo dnf install -y make gcc-c++ autoconf libtool pkgconfig
+```
+
+**Windows:**
+- 推荐使用 MSYS2、MinGW 或 Visual Studio。
+- 安装 perl、make、cl.exe（MSVC）等工具。
+
+### 3. 配置编译参数
+
+#### 3.1 Linux/macOS 下（Autotools）
+
+```bash
+cd icu/source
+./configure --prefix=/your/install/path
+```
+常用参数说明：
+- `--prefix`：安装路径
+- `--enable-static`/`--disable-shared`：静/动态库选择
+
+#### 3.2 Windows 下（MSVC）
+
+- 使用 Visual Studio “x64 Native Tools Command Prompt”
+- 进入源码目录：
+
+```bat
+cd icu\icu4c\source\allinone
+runConfigureICU MSVC
+```
+- 或使用 `msbuild` 进行构建。
+
+#### 3.3 CMake 构建（部分版本支持）
+
+```bash
+mkdir build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/your/install/path
+cmake --build . --target install
+```
+
+### 4. 编译
+
+```bash
+make -j$(nproc)           # Linux/macOS
+nmake                     # Windows MSVC
+```
+
+### 5. 安装
+
+```bash
+sudo make install         # Linux/macOS
+nmake install             # Windows MSVC
+```
+
+### 6. 验证安装
+
+- 检查安装目录下的 `bin/`, `lib/`, `include/` 等文件夹。
+- 运行 `icu-config --version` 或 `uconv -V` 检查版本。
+
+---
+
+## 三、自动化批量构建（CI/CD 示范）
+
+以 GitHub Actions 为例，支持自动化多平台批量构建：
+
+### 1. 在仓库根目录创建 `.github/workflows/build-icu.yml`：
+
+```yaml
+name: Build ICU
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: 安装依赖
         run: sudo apt-get update && sudo apt-get install -y build-essential autoconf libtool pkg-config
       - name: 下载 ICU 源码
@@ -4289,6 +4407,7 @@ sudo apt install -y build-essential autoconf libtool pkg-config
 如需针对特殊平台或复杂批量构建需求，可继续提问！
 
 ---
+
 
 # 问题三十五、编译 Pugixml（如需自动化批量构建），请给出详细的每个步骤和细节。
 

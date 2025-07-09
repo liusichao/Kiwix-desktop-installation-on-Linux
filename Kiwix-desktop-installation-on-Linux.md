@@ -39,9 +39,9 @@ Kiwix 组织（https://github.com/kiwix）下有多个仓库，每个仓库负�
 该仓库包含一组命令行工具，比如 kiwix-serve（ZIM 文件的 HTTP 服务器），方便在本地或局域网内提供离线内容服务。
 项目地址：https://github.com/kiwix/kiwix-tools
 
-**4.kiwix-lib**
+**4.kiwix-libkiwix**
 提供 C/C++ 的 Kiwix 库，是开发 Kiwix 相关应用的底层代码基础。
-项目地址：https://github.com/kiwix/kiwix-lib
+项目地址：https://github.com/kiwix/kiwix-libkiwix
 
 **5.kiwix-android**
 Kiwix 的安卓客户端源码，允许用户在 Android 设备上使用 Kiwix 离线浏览功能。
@@ -207,13 +207,13 @@ sudo apt install git cmake build-essential zlib1g-dev libzip-dev openssl libssl-
 
 ## 3. 构建 Kiwix 相关依赖
 
-Kiwix Desktop 依赖 `kiwix-lib`、`kiwix-tools`、`libzim` 等，可以选择用包管理器安装（部分旧版仓库自带），也可以全部用源码编译以获得最新版和更好兼容性。
+Kiwix Desktop 依赖 `kiwix-libkiwix`、`kiwix-tools`、`libzim` 等，可以选择用包管理器安装（部分旧版仓库自带），也可以全部用源码编译以获得最新版和更好兼容性。
 
-### 3.1 编译 kiwix-lib
+### 3.1 编译 kiwix-libkiwix
 
 ```bash
-git clone https://github.com/kiwix/kiwix-lib.git
-cd kiwix-lib
+git clone https://github.com/kiwix/kiwix-libkiwix.git
+cd kiwix-libkiwix
 mkdir build && cd build
 cmake .. -G Ninja
 ninja
@@ -564,8 +564,8 @@ sudo apt install git build-essential cmake ninja-build zlib1g-dev libzip-dev lib
 ## 3. 获取源码
 
 ```bash
-git clone https://github.com/kiwix/kiwix-lib.git
-cd kiwix-lib
+git clone https://github.com/kiwix/kiwix-libkiwix.git
+cd kiwix-libkiwix
 ```
 
 ---
@@ -637,7 +637,7 @@ make clean
 
 ## 9. 参考链接
 
-- [kiwix-lib GitHub 仓库](https://github.com/kiwix/kiwix-lib)
+- [kiwix-libkiwix GitHub 仓库](https://github.com/kiwix/kiwix-libkiwix)
 - [Kiwix 官方文档](https://wiki.kiwix.org/wiki/Kiwix)
 
 ---

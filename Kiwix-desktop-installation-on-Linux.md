@@ -4774,3 +4774,148 @@ jobs:
 ---
 
 # 问题三十七、编译 Google Test （如需自动化批量构建），请给出详细的每个步骤和细节。
+# Google Test（GTest）编译与自动化批量构建详细步骤
+
+---
+
+## 一、Google Test 简介
+
+Google Test（GTest）是 Google 开源的 C++ 单元测试框架，广泛应用于各种 C++ 项目的自动化测试。支持多平台、多编译器，集成简单、易于批量构建和自动化。
+
+---
+
+## 二、手动编译 Google Test 步骤
+
+### 1. 获取源码
+
+推荐使用官方 GitHub 仓库（[https://github.com/google/googletest](https://github.com/google/googletest)）：
+
+```bash
+git clone https://github.com/google/googletest.git
+cd googletest
+```
+
+### 2. 安装依赖
+
+#### Linux / macOS
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake
+# 或 macOS 下
+brew install cmake
+```
+
+#### Windows
+- 推荐安装 Visual Studio 或 MSYS2/MinGW，并确保 CMake 已安装。
+
+### 3. 使用 CMake 构建
+
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+```
+
+- 默认会生成静态库：`libgtest.a`、`libgtest_main.a`（Linux/macOS）或 `gtest.lib`、`gtest_main.lib`（Windows）。
+- Windows 下可用 `cmake .. -A x64` 指定 64 位。
+
+### 4. 安装（可选）
+
+```bash
+sudo cmake --install .
+# 或
+sudo make install
+# 可通过 -DCMAKE_INSTALL_PREFIX=/your/path 设置安装路径
+```
+
+### 5. 集成到你的项目
+
+- 在 CMake 工程中可用 `add_subdirectory(googletest)` 直接集成源码，无需单独编译和安装。
+- 链接 `gtest` 和（可选的）`gtest_main` 静态库。
+- 包含头文件目录 `${GTEST_SOURCE_DIR}/include`。
+
+**示例 CMakeLists.txt：**
+```cmake
+add_subdirectory(googletest)
+add_executable(mytest test.cpp)
+target_link_libraries(mytest gtest gtest_main)
+```
+
+---
+
+## 三、自动化批量构建（CI/CD 示例）
+
+### 1. GitHub Actions 示例
+
+```yaml
+name: Build and Test GoogleTest
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: sudo apt-get update && sudo apt-get install -y cmake g++
+      - name: 配置
+        run: mkdir build && cd build && cmake ..
+      - name: 编译
+        run: cd build && cmake --build . --config Release
+      - name: 测试
+        run: cd build && ctest
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: brew install cmake
+      - name: 配置
+        run: mkdir build && cd build && cmake ..
+      - name: 编译
+        run: cd build && cmake --build . --config Release
+      - name: 测试
+        run: cd build && ctest
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 配置
+        run: mkdir build; cd build; cmake .. -A x64
+      - name: 编译
+        run: cd build; cmake --build . --config Release
+      - name: 测试
+        run: cd build; ctest -C Release
+```
+
+### 2. Jenkins 或其他 CI/CD
+
+- 步骤同手动编译，只需在流水线脚本适配上述流程即可。
+
+---
+
+## 四、常见问题与建议
+
+- **推荐源码集成**：CMake 项目建议用 `add_subdirectory()` 将 GTest 作为子模块集成，便于依赖管理。
+- **多平台支持**：CMake 支持 Windows/Linux/macOS，批量构建建议使用矩阵策略。
+- **测试发现与运行**：CMake 自动将 `TEST()` 宏标注的测试加入到 `ctest` 管理，批量验证方便。
+- **静态/动态库**：如需动态库，可加 `-DBUILD_SHARED_LIBS=ON`。
+- **安装路径**：自定义安装路径可用 `-DCMAKE_INSTALL_PREFIX=/your/path`。
+
+---
+
+## 五、参考资料
+
+- [Google Test 官方文档](https://google.github.io/googletest/)
+- [Google Test GitHub](https://github.com/google/googletest)
+- [Google Test CMake 指南](https://google.github.io/googletest/quickstart-cmake.html)
+
+---
+
+如需更详细示例或遇到具体构建报错，可继续提问！

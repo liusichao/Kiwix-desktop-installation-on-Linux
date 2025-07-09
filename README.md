@@ -3915,3 +3915,301 @@ ninja -C builddir
 ---
 
 # 问题三十二、请帮我给一个meson的中文官方手册
+# Meson 官方手册（中文翻译）
+
+> 原文：[https://mesonbuild.com/manual.html](https://mesonbuild.com/manual.html)  
+> 本文为 Meson 官方手册的核心内容中文翻译，仅供学习和参考。
+
+---
+
+## 目录
+
+1. 简介
+2. 安装与入门
+3. meson.build 文件语法
+4. 常用命令
+5. 进阶特性
+6. 参考资料
+
+---
+
+## 1. 简介
+
+Meson 是一个专注于高效率和易用性的开源构建系统，主要用于 C、C++、Fortran、Rust、Java、Python 等多语言项目。Meson 设计目标是高效增量编译、简单易读的配置和跨平台兼容性。Meson 常与 Ninja 配合使用，提供极快的编译速度。
+
+---
+
+## 2. 安装与入门
+
+### 2.1 安装
+
+推荐使用 pip 安装最新版 Meson：
+
+```bash
+pip3 install --user meson
+```
+
+也可通过系统包管理器安装：
+
+```bash
+sudo apt install meson    # Ubuntu/Debian
+sudo dnf install meson    # Fedora
+brew install meson        # macOS
+```
+
+### 2.2 项目初始化
+
+在项目根目录新建 `meson.build` 文件，例如：
+
+```meson
+project('hello', 'c')
+
+executable('hello', 'hello.c')
+```
+
+### 2.3 配置构建目录
+
+Meson 推荐 out-of-source 构建：
+
+```bash
+meson setup builddir
+```
+
+### 2.4 编译与安装
+
+```bash
+ninja -C builddir
+meson install -C builddir
+```
+
+---
+
+## 3. meson.build 文件语法
+
+### 3.1 工程声明
+
+```meson
+project('myproject', 'c', version: '1.0.0')
+```
+
+### 3.2 定义可执行文件
+
+```meson
+executable('myapp', ['main.c', 'util.c'])
+```
+
+### 3.3 定义库
+
+```meson
+library('mylib', ['lib.c'])
+```
+
+### 3.4 添加依赖
+
+```meson
+glib_dep = dependency('glib-2.0')
+executable('myapp', 'main.c', dependencies: glib_dep)
+```
+
+### 3.5 编译选项
+
+```meson
+add_project_arguments('-Wall', language: 'c')
+```
+
+### 3.6 安装路径
+
+```meson
+install_dir: join_paths(get_option('prefix'), 'bin')
+```
+
+### 3.7 测试
+
+```meson
+test('基础测试', executable('test', 'test.c'))
+```
+
+---
+
+## 4. 常用命令
+
+- `meson setup builddir`：配置构建目录
+- `meson configure builddir`：查看/修改构建选项
+- `meson compile -C builddir`：编译
+- `meson test -C builddir`：运行测试
+- `meson install -C builddir`：安装
+- `meson clean -C builddir`：清理构建产物
+
+---
+
+## 5. 进阶特性
+
+- **多语言支持**：支持 C/C++/Fortran/Rust/D/Java/Python 等
+- **条件判断与循环**：支持 `if`、`foreach` 等语法
+- **交叉编译**：可通过 cross file 实现
+- **自定义安装**：支持多种目标和自定义安装路径
+- **外部依赖**：`dependency()` 自动查找库和包
+- **打包与发行**：支持 `meson dist` 生成源码包
+
+---
+
+## 6. 参考资料
+
+- [Meson 官方文档（英文）](https://mesonbuild.com/manual.html)
+- [Meson 官方文档（中文）](https://mesonbuild.com/zh_CN/)
+- [Meson 示例项目](https://github.com/mesonbuild/meson/wiki/Sample-projects)
+
+---
+
+如需更详细示例或遇到具体构建报错，可继续提问！
+
+---
+
+# 问题三十三请帮我给一个meson的官方手册，语言为中文。
+# Meson 官方手册（中文翻译）
+
+> 原文：[https://mesonbuild.com/manual.html](https://mesonbuild.com/manual.html)  
+> 本文为 Meson 官方手册核心内容的中文翻译，供学习与参考。
+
+---
+
+## 目录
+
+1. 简介
+2. 安装与快速开始
+3. meson.build 文件语法
+4. 常用命令
+5. 进阶特性
+6. 参考资料
+
+---
+
+## 1. 简介
+
+Meson 是一个现代化、高效率、易用且跨平台的自动化构建系统，主要用于 C、C++、Fortran、Rust、Java、Python 等多语言项目。Meson 以高速增量编译、简单明了的配置文件和良好的多平台支持为设计目标。Meson 通常配合 Ninja 使用，带来极快的编译体验。
+
+---
+
+## 2. 安装与快速开始
+
+### 2.1 安装
+
+推荐使用 pip 安装最新版 Meson：
+
+```bash
+pip3 install --user meson
+```
+
+也可通过系统包管理器安装：
+
+```bash
+sudo apt install meson    # Ubuntu/Debian
+sudo dnf install meson    # Fedora
+brew install meson        # macOS
+```
+
+### 2.2 新建项目
+
+在项目根目录新建 `meson.build` 文件，例如：
+
+```meson
+project('hello', 'c')
+
+executable('hello', 'hello.c')
+```
+
+### 2.3 配置构建目录
+
+Meson 推荐 out-of-source 构建：
+
+```bash
+meson setup builddir
+```
+
+### 2.4 编译与安装
+
+```bash
+ninja -C builddir
+meson install -C builddir
+```
+
+---
+
+## 3. meson.build 文件语法
+
+### 3.1 工程声明
+
+```meson
+project('myproject', 'c', version: '1.0.0')
+```
+
+### 3.2 定义可执行文件
+
+```meson
+executable('myapp', ['main.c', 'util.c'])
+```
+
+### 3.3 定义库
+
+```meson
+library('mylib', ['lib.c'])
+```
+
+### 3.4 添加依赖
+
+```meson
+glib_dep = dependency('glib-2.0')
+executable('myapp', 'main.c', dependencies: glib_dep)
+```
+
+### 3.5 编译选项
+
+```meson
+add_project_arguments('-Wall', language: 'c')
+```
+
+### 3.6 安装路径
+
+```meson
+install_dir: join_paths(get_option('prefix'), 'bin')
+```
+
+### 3.7 测试
+
+```meson
+test('基础测试', executable('test', 'test.c'))
+```
+
+---
+
+## 4. 常用命令
+
+- `meson setup builddir`：配置构建目录
+- `meson configure builddir`：查看/修改构建选项
+- `meson compile -C builddir`：编译
+- `meson test -C builddir`：运行测试
+- `meson install -C builddir`：安装
+- `meson clean -C builddir`：清理构建产物
+
+---
+
+## 5. 进阶特性
+
+- **多语言支持**：支持 C/C++/Fortran/Rust/D/Java/Python 等
+- **条件判断与循环**：支持 `if`、`foreach` 等语法
+- **交叉编译**：可通过 cross file 实现
+- **自定义安装**：支持多种目标和自定义安装路径
+- **外部依赖**：`dependency()` 自动查找库和包
+- **打包与发行**：支持 `meson dist` 生成源码包
+
+---
+
+## 6. 参考资料
+
+- [Meson 官方文档（英文）](https://mesonbuild.com/manual.html)
+- [Meson 官方文档（中文）](https://mesonbuild.com/zh_CN/)
+- [Meson 示例项目](https://github.com/mesonbuild/meson/wiki/Sample-projects)
+
+---
+
+如需更详细示例或遇到具体构建报错，可继续提问！

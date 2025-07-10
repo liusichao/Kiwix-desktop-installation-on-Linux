@@ -1,4 +1,4 @@
-# 问题二十二、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。
+# 问题一、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。
 # libkiwix 使用 Meson 和 Ninja 自动化批量编译详解（基于官方 README）
 
 ## 1. 环境准备
@@ -148,7 +148,7 @@ rm -rf builddir
 
 ---
 
-# 问题二十三、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请给出详细的操作步骤
+# 问题二、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请给出详细的操作步骤
 # libkiwix Meson+Ninja 自动化批量构建：CI/CD (以 GitHub Actions/Jenkins 为例)
 
 ---
@@ -280,7 +280,7 @@ pipeline {
 
 ---
 
-# 问题二十四、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请分别给出在GitHub Actions与Jenkins详细的构建步骤和方法
+# 问题三、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请分别给出在GitHub Actions与Jenkins详细的构建步骤和方法
 # libkiwix 自动化批量构建：GitHub Actions 与 Jenkins 详细配置步骤
 
 ---
@@ -427,7 +427,7 @@ pipeline {
 
 ---
 
-# 问题二十五、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请分别给出在GitHub Actions与Jenkins详细的构建步骤和操作方法，以及使用的工具。
+# 问题四、可根据需求加装 CI/CD（如 GitHub Actions 或 Jenkins）自动批量构建。请分别给出在GitHub Actions与Jenkins详细的构建步骤和操作方法，以及使用的工具。
 # libkiwix 自动批量构建：GitHub Actions 与 Jenkins 详细操作指南
 
 ---

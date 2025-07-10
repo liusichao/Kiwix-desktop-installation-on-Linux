@@ -72,7 +72,7 @@ Kiwix 桌面版应用源码，支持 Windows、macOS、Linux 等桌面平台。
 **2.赋予执行权限**
 打开终端，进入下载目录，执行：
 ```bash
-chmod +x  Kiwix-desktop-x86_64.AppImage
+sudo chmod +x Kiwix-desktop-x86_64.AppImage
 ```
 **3.运行 Kiwix Desktop**
 在终端运行：

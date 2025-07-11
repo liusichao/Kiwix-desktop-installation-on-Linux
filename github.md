@@ -659,3 +659,341 @@ hub browse
   - 登录 GitHub → Settings → Developer settings → Personal access tokens → Generate new token。^[26]^
   - 勾选 `repo` 和 `user` 权限，生成 Token。^[27]^
   - 运行 `git config --global github.token YOUR_TOKEN` 存储 Token。^[28]^
+
+---
+
+# 如何安装配置 GitHub gh
+
+### **GitHub `gh` 命令行工具安装与配置指南（2025 年最新版，附扩展配置）**
+
+#### **一、安装 `gh` 工具**
+`gh` 是 GitHub 官方推出的命令行工具，支持代码托管、Issue 管理、PR 操作等核心功能。以下是安装方法：
+
+1. **macOS/Linux**  
+   使用 Homebrew 或系统包管理器安装：
+   ```bash
+   # macOS（推荐）
+   brew install gh
+
+   # Linux（如 Ubuntu/Debian）
+   sudo apt-get install gh
+   ```
+
+2. **Windows**  
+   通过 [GitHub CLI 发布页](https://github.com/cli/cli/releases) 下载 MSI 安装包，或使用 Chocolatey：
+   ```powershell
+   choco install gh
+   ```
+
+3. **手动安装（通用）**  
+   下载对应系统的二进制文件，移动到系统路径（如 `/usr/local/bin` 或 `%PATH%` 目录）：
+   ```bash
+   # 示例：Linux/macOS 手动安装
+   wget https://github.com/cli/cli/releases/download/v2.64.0/gh_2.64.0_linux_amd64.tar.gz
+   tar -xzf gh_*.tar.gz
+   sudo mv gh_*/bin/gh /usr/local/bin/
+   ```
+
+#### **二、登录 GitHub 账号**
+安装完成后，需通过以下命令登录账号以授权操作：
+```bash
+gh auth login
+```
+按提示选择登录方式：
+1. **认证方式**：
+   - **HTTPS**：推荐，需输入账号密码（支持 Token 输入）。
+   - **SSH**：需提前配置 SSH 密钥（通过 `ssh-keygen` 生成并添加到 GitHub）。
+2. **登录范围**：
+   - `github.com`：适用于公共 GitHub。
+   - 企业版 GitHub：需输入域名（如 `github.example.com`）。
+3. **权限范围**：
+   - **Read and Write**：支持完整功能（如创建 PR、管理 Issue）。
+   - **Read Only**：仅查看权限。
+4. **验证方式**：
+   - **Web 浏览器**：打开生成的 URL 扫码或授权（推荐）。
+   - **Token 输入**：在 GitHub [Personal Access Tokens](https://github.com/settings/tokens) 页面生成 Token 后粘贴。
+
+#### **三、基础配置**
+1. **全局配置**  
+   设置默认编辑器、Git 用户信息等：
+   ```bash
+   # 设置默认编辑器（如 VSCode）
+   gh config set editor "code --wait"
+
+   # 设置 Git 协议（HTTPS 或 SSH）
+   gh config set git_protocol ssh
+
+   # 查看当前配置
+   gh config get
+   ```
+
+2. **仓库级配置**  
+   进入项目目录后，可针对单个仓库配置：
+   ```bash
+   cd /path/to/repo
+   gh repo view --web  # 在浏览器打开仓库页面
+   gh issue create --title "New Issue" --body "Issue details"  # 创建 Issue
+   ```
+
+#### **四、常用功能示例**
+1. **克隆仓库**  
+   ```bash
+   gh repo clone github/gh-skyline  # 克隆 GitHub 官方示例项目
+   ```
+
+2. **管理 Issue/PR**  
+   ```bash
+   gh issue list                     # 列出当前仓库 Issue
+   gh issue create --fill             # 基于未提交更改创建 Issue
+   gh pr create --fill                # 创建 PR（自动填充标题和描述）
+   gh pr checkout 123                # 检出 PR #123 到本地分支
+   gh pr merge 123 --merge            # 合并 PR（支持 --squash 或 --rebase）
+   ```
+
+3. **生成 GitHub 贡献 3D 图**  
+   使用 `gh-skyline` 扩展（需提前安装）：
+   ```bash
+   # 安装扩展
+   gh extension install github/gh-skyline
+
+   # 生成 2024 年贡献图
+   gh skyline --year 2024 --output skyline.png
+
+   # 参数说明：
+   # --year: 指定年份（默认当前年）
+   # --output: 输出文件路径
+   ```
+
+4. **企业版 GitHub 支持**  
+   若使用 GitHub Enterprise，需在登录时指定域名：
+   ```bash
+   gh auth login --hostname github.example.com --web
+   ```
+
+#### **五、扩展推荐与配置**
+1. **`gh-dash`：命令行仪表盘**  
+   实时展示 PR/Issue 状态，支持自定义过滤和快捷键：
+   ```bash
+   # 安装
+   gh extension install dlvhdr/gh-dash
+
+   # 启动仪表盘
+   gh dash
+
+   # 常用命令：
+   # --filter "state:open author:@me"  # 过滤当前用户的开放 PR
+   # --sort updated                    # 按更新时间排序
+   ```
+
+2. **`gh-api`：直接调用 GitHub API**  
+   ```bash
+   # 安装
+   gh extension install fastai/ghapi
+
+   # 示例：列出所有 Issue 标题
+   gh api repos/github/gh/issues --paginate | jq '.[].title'
+   ```
+
+3. **`gh-find-current-pr`：查找当前分支的 PR**  
+   ```bash
+   # 安装
+   npm install -g gh-find-current-pr
+
+   # 使用
+   gh-find-current-pr
+   ```
+
+#### **六、故障排查**
+1. **权限错误**  
+   - 确保 Token 或 SSH 密钥具有足够权限（如 `repo` 范围）。
+   - 检查 `~/.config/gh/hosts.yml` 是否配置了企业版域名。
+
+2. **网络问题**  
+   - 代理设置：
+     ```bash
+     gh config set http_proxy "http://proxy.example.com:8080"
+     ```
+   - 验证网络连通性：
+     ```bash
+     gh api /user --include  # 测试 API 访问
+     ```
+
+3. **版本升级**  
+   ```bash
+   # macOS/Linux
+   brew upgrade gh
+
+   # Windows
+   choco upgrade gh
+   ```
+
+#### **七、完整配置示例**
+```bash
+# 1. 安装 gh
+brew install gh
+
+# 2. 登录 GitHub
+gh auth login --web
+
+# 3. 全局配置
+gh config set editor "code --wait"
+gh config set git_protocol ssh
+
+# 4. 安装扩展
+gh extension install github/gh-skyline
+gh extension install dlvhdr/gh-dash
+
+# 5. 生成贡献图
+gh skyline --year 2024 --output ~/Desktop/skyline.png
+
+# 6. 启动仪表盘
+gh dash --filter "state:open label:bug"
+```
+
+### **总结**
+- **安装**：优先选择包管理器（Homebrew/apt/choco），手动安装作为备选。
+- **登录**：推荐 Token 或 SSH 方式，企业版需配置域名。
+- **配置**：全局设置编辑器、协议，仓库级操作直接调用 `gh` 命令。
+- **扩展**：根据需求安装 `gh-skyline`、`gh-dash` 等增强功能。
+
+通过以上步骤，您可快速上手 `gh` 工具，高效管理 GitHub 项目。如遇问题，可运行 `gh help` 查看内置文档或访问 [GitHub CLI 官方文档](https://cli.github.com/manual/)。
+
+---
+
+# 如何安装配置github gh，请给出最为详尽的安装配置步骤和方法并一一列出各个选项并说明它们各自的用途。
+
+### **GitHub `gh` 命令行工具安装与配置指南（2025 年最新版）**
+
+#### **一、安装 `gh` 工具**
+`gh` 是 GitHub 官方推出的命令行工具，支持代码托管、Issue 管理、PR 操作等核心功能。以下是安装方法：
+
+1. **macOS/Linux**  
+   使用 Homebrew 或系统包管理器安装：
+   ```bash
+   # macOS（推荐）
+   brew install gh
+
+   # Linux（如 Ubuntu/Debian）
+   sudo apt-get install gh
+
+   # 验证安装
+   gh --version
+   ```
+
+2. **Windows**  
+   通过 [GitHub CLI 发布页](https://github.com/cli/cli/releases) 下载 MSI 安装包，或使用 Chocolatey：
+   ```powershell
+   choco install gh
+   ```
+
+3. **手动安装（通用）**  
+   下载对应系统的二进制文件，移动到系统路径（如 `/usr/local/bin` 或 `%PATH%` 目录）：
+   ```bash
+   # 示例：Linux/macOS 手动安装
+   wget https://github.com/cli/cli/releases/download/v2.64.0/gh_2.64.0_linux_amd64.tar.gz
+   tar -xzf gh_*.tar.gz
+   sudo mv gh_*/bin/gh /usr/local/bin/
+   ```
+
+#### **二、登录 GitHub 账号**
+安装完成后，需通过以下命令登录账号以授权操作：
+```bash
+gh auth login
+```
+按提示选择登录方式：
+1. **选择认证方式**：推荐 `HTTPS`（需输入账号密码）或 `SSH`（需提前配置密钥）。
+2. **登录范围**：根据需求选择 `github.com` 或企业版 GitHub。
+3. **权限范围**：建议选择 `Read and Write` 以支持完整功能。
+4. **验证方式**：
+   - **Web 浏览器**：打开生成的 URL 扫码或授权。
+   - **Token 输入**：在 GitHub [Personal Access Tokens](https://github.com/settings/tokens) 页面生成 Token 后粘贴。
+
+#### **三、基础配置**
+1. **全局配置**  
+   设置默认编辑器、Git 用户信息等：
+   ```bash
+   # 设置默认编辑器（如 VSCode）
+   gh config set editor "code --wait"
+
+   # 设置 Git 用户信息（与 git config 同步）
+   gh config set git_protocol ssh
+   ```
+
+2. **仓库级配置**  
+   进入项目目录后，可针对单个仓库配置：
+   ```bash
+   cd /path/to/repo
+   gh repo view --web  # 在浏览器打开仓库页面
+   gh issue create --title "New Issue" --body "Issue details"  # 创建 Issue
+   ```
+
+#### **四、常用功能示例**
+1. **克隆仓库**  
+   ```bash
+   gh repo clone github/gh-skyline  # 克隆 GitHub 官方示例项目
+   ```
+
+2. **管理 Issue/PR**  
+   ```bash
+   gh issue list                     # 列出当前仓库 Issue
+   gh pr create --fill               # 基于未提交更改创建 PR
+   gh pr checkout 123                # 检出 PR #123 到本地分支
+   ```
+
+3. **生成 GitHub 贡献 3D 图**  
+   使用 `gh-skyline` 扩展（需提前安装）：
+   ```bash
+   gh extension install github/gh-skyline
+   gh skyline --year 2024 --output skyline.png  # 生成 2024 年贡献图
+   ```
+
+4. **企业版 GitHub 支持**  
+   若使用 GitHub Enterprise，需在登录时指定域名：
+   ```bash
+   gh auth login --hostname github.example.com --web
+   ```
+
+#### **五、故障排查**
+1. **权限错误**  
+   - 确保 Token 或 SSH 密钥具有足够权限（如 `repo` 范围）。
+   - 检查 `~/.config/gh/hosts.yml` 是否配置了企业版域名。
+
+2. **网络问题**  
+   - 代理设置：
+     ```bash
+     gh config set http_proxy "http://proxy.example.com:8080"
+     ```
+   - 验证网络连通性：
+     ```bash
+     gh api /user --include  # 测试 API 访问
+     ```
+
+3. **版本升级**  
+   ```bash
+   # macOS/Linux
+   brew upgrade gh
+
+   # Windows
+   choco upgrade gh
+   ```
+
+#### **六、扩展推荐**
+1. **`gh-dash`**：命令行仪表盘，实时展示 PR/Issue 状态。
+   ```bash
+   gh extension install dlvhdr/gh-dash
+   gh dash  # 启动仪表盘
+   ```
+
+2. **`gh-api`**：直接调用 GitHub API。
+   ```bash
+   gh extension install fastai/ghapi
+   gh api repos/github/gh/issues --paginate | jq '.[].title'  # 列出所有 Issue 标题
+   ```
+
+### **总结**
+- **安装**：优先选择包管理器（Homebrew/apt/choco），手动安装作为备选。
+- **登录**：推荐 Token 或 SSH 方式，企业版需配置域名。
+- **配置**：全局设置编辑器、协议，仓库级操作直接调用 `gh` 命令。
+- **扩展**：根据需求安装 `gh-skyline`、`gh-dash` 等增强功能。
+
+通过以上步骤，您可快速上手 `gh` 工具，高效管理 GitHub 项目。如遇问题，可运行 `gh help` 查看内置文档或访问 [GitHub CLI 官方文档](https://cli.github.com/manual/)。

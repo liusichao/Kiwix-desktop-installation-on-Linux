@@ -81,7 +81,7 @@ git config --global user.email "你的邮箱@example.com"
 
 ---
 
-### 如何安装配置 Git-2.50.1-64-bit
+# 如何安装配置 Git-2.50.1-64-bit
 
 以下是安装和配置 Git-2.50.1-64-bit 的详细步骤，涵盖各个选项的用途说明：
 

@@ -472,8 +472,192 @@ git config --global https.proxy http://127.0.0.1:1080
   - 使用 PAT 替代密码。^[46]^
   - 或运行 `git config --global credential.helper store` 永久保存凭据（不推荐，存在安全风险）。^[47]^
 
+---
 
+# GitHub Hub 安装与配置指南（SSH 协议优先）
 
+## 一、安装 GitHub Hub
 
+GitHub Hub 是 GitHub 的命令行工具，扩展了 Git 命令的功能（如快速创建 PR、克隆仓库等）。^[1]^以下是安装步骤：
+
+### 1. 使用 Scoop 安装（Windows 推荐）
+
+```powershell
+# 允许执行远程脚本（仅首次需要）
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+# 安装 Scoop
+iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+# 安装 GitHub Hub
+scoop install hub
+```
+
+### 2. 手动安装
+
+- **Linux/macOS**：从 GitHub Hub Releases 下载二进制文件，解压后将 `hub` 复制到 `/usr/local/bin`。^[2]^
+- **Windows**：下载 `hub.exe` 并添加到系统 PATH 环境变量。^[3]^
+
+### 3. 验证安装
+
+```bash
+hub version
+```
+
+输出示例：
+
+```bash
+git version 2.50.1.windows.1
+hub version 2.14.0
+```
+
+## 二、配置 SSH 凭据（推荐）
+
+GitHub 已弃用密码认证，推荐使用 SSH 协议。^[4]^以下是配置步骤：
+
+### 1. 生成 SSH 密钥
+
+```bash
+ssh-keygen -t ed25519 -C "your.email@example.com"
+```
+
+**选项说明**：
+- `-t ed25519`：指定密钥类型（更安全且高效）。^[5]^
+- `-C`：添加注释（通常为邮箱）。^[6]^
+
+**操作提示**：
+- 按提示输入保存路径（默认 `~/.ssh/id_ed25519`）。^[7]^
+- 可设置密码（留空则无密码）。^[8]^
+
+### 2. 添加 SSH 密钥到 GitHub
+
+```bash
+# 查看公钥内容
+cat ~/.ssh/id_ed25519.pub
+```
+
+复制输出内容，登录 GitHub → Settings → SSH and GPG Keys → New SSH Key，粘贴并保存。^[9]^
+
+### 3. 测试 SSH 连接
+
+```bash
+ssh -T git@github.com
+```
+
+成功输出：
+
+```bash
+Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+### 4. 多账号 SSH 配置（高级）
+
+若需管理多个 GitHub 账号，编辑 `~/.ssh/config` 文件：^[10]^
+
+```bash
+# 个人账号
+Host personal.github.com
+ HostName github.com
+ User git
+ IdentityFile ~/.ssh/id_ed25519_personal
+# 工作账号
+Host work.github.com
+ HostName github.com
+ User git
+ IdentityFile ~/.ssh/id_ed25519_work
+```
+
+**用途**：通过不同 Host 别名区分账号，避免密钥冲突。^[11]^
+
+## 三、配置 GitHub Hub 全局选项
+
+编辑 `~/.gitconfig` 文件（或通过命令行配置）：^[12]^
+
+```bash
+# 设置 GitHub 主机别名（默认无需修改）
+git config --global hub.host github.com
+# 强制使用 SSH 协议（覆盖仓库默认协议）
+git config --global hub.protocol ssh
+```
+
+**选项说明**：
+- `hub.host`：指定 Hub 操作的 GitHub 主机（默认 github.com）。^[13]^
+- `hub.protocol`：强制使用 SSH 协议（避免 HTTPS 提示输入密码）。^[14]^
+
+## 四、配置 HTTPS 凭据存储（替代方案）
+
+若无法使用 SSH，可通过 HTTPS 凭据管理器存储密码（不推荐，安全性较低）：^[15]^
+
+### 1. 配置 Git 凭据管理器
+
+```bash
+# Windows
+git config --global credential.helper manager
+# macOS
+git config --global credential.helper osxkeychain
+# Linux
+git config --global credential.helper cache --timeout=3600
+```
+
+**选项说明**：
+- `manager`：Windows 凭据管理器。^[16]^
+- `osxkeychain`：macOS 钥匙串。^[17]^
+- `cache`：临时缓存凭据（默认 15 分钟，`--timeout` 可修改）。^[18]^
+
+### 2. 首次推送时输入凭据
+
+```bash
+git push origin main
+```
+
+系统会弹出窗口要求输入 GitHub 用户名和密码（或 Personal Access Token）。^[19]^
+
+## 五、使用 GitHub Hub 常用命令
+
+### 1. 克隆仓库
+
+```bash
+hub clone owner/repo
+```
+
+**用途**：等价于 `git clone git@github.com:owner/repo.git`（使用 SSH）。^[20]^
+
+### 2. 创建 Pull Request
+
+```bash
+hub pull-request -m "Title" -b "owner:branch" -r "reviewer1,reviewer2"
+```
+
+**选项说明**：
+- `-m`：指定 PR 标题。
+- `-b`：目标分支（格式 `owner:branch`）。
+- `-r`：指定审阅人（逗号分隔）。
+
+### 3. 浏览仓库
+
+```bash
+hub browse
+```
+
+**选项说明**：
+- `--issues`：打开 Issues 页面。
+- `--pulls`：打开 Pull Requests 页面。
+
+## 六、常见问题解决
+
+### hub version 报错
+
+- 检查 `hub` 是否在 PATH 中。^[21]^
+- 重新启动终端或运行 `source ~/.bashrc`（Linux/macOS）。^[22]^
+
+### SSH 连接失败
+
+- 确保 SSH 密钥已添加到 GitHub。^[23]^
+- 运行 `ssh -T git@github.com` 测试连接。^[24]^
+
+### HTTPS 凭据频繁提示
+
+- 使用 Personal Access Token（PAT）替代密码：^[25]^
+  - 登录 GitHub → Settings → Developer settings → Personal access tokens → Generate new token。^[26]^
+  - 勾选 `repo` 和 `user` 权限，生成 Token。^[27]^
+  - 运行 `git config --global github.token YOUR_TOKEN` 存储 Token。^[28]^
 
 

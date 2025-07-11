@@ -191,7 +191,7 @@ git config --global user.email "你的邮箱@example.com"
     git config --global https.proxy https://proxy.example.com:8080
     ```
 
-### 如何安装配置 GitHub Hub
+# 如何安装配置 GitHub Hub
 
 GitHub Hub 是 GitHub 的命令行工具，用于简化 Git 操作（如克隆仓库、创建 Pull Request 等）。^[43]^以下是安装和配置 GitHub Hub 的详细步骤：
 
@@ -659,5 +659,3 @@ hub browse
   - 登录 GitHub → Settings → Developer settings → Personal access tokens → Generate new token。^[26]^
   - 勾选 `repo` 和 `user` 权限，生成 Token。^[27]^
   - 运行 `git config --global github.token YOUR_TOKEN` 存储 Token。^[28]^
-
-

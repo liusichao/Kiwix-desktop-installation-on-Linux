@@ -1,4 +1,4 @@
-# 如何在window下用用命令行，将%USERPROFILE%\.pyenv\pyenv-win\bin和%USERPROFILE%\.pyenv\pyenv-win\shims添加到系统PATH？
+# 如何在window下用命令行，将%USERPROFILE%\.pyenv\pyenv-win\bin和%USERPROFILE%\.pyenv\pyenv-win\shims添加到系统PATH？
 
 ## 在 Windows 系统中，可以通过命令行（如 `cmd` 或 `PowerShell`）将 `%USERPROFILE%\.pyenv\pyenv-win\bin` 和 `%USERPROFILE%\.pyenv\pyenv-win\shims` 添加到系统 `PATH` 环境变量。以下是具体步骤和说明：
 

@@ -8,6 +8,6 @@
 ---
 Code
 ```
-`KTGJDX`
-`GBGJDX`
- ```
+KTGJDX
+GBGJDX
+```

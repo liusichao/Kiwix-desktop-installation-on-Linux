@@ -319,6 +319,8 @@
    - **原因**：可能是插件配置错误或Markdown文件语法错误。
    - **解决方案**：检查`book.json`文件中的插件配置是否正确，并确保所有Markdown文件的语法正确无误。同时，可以尝试删除`node_modules`目录和`package-lock.json`文件后重新安装依赖。
 
+---
+
 # gitbook
 
 **GitBook 是一个基于 Node.js 的文档协作与出版平台，通过集成 Git 版本控制和 Markdown 语法，支持电子书创作、技术文档编写及团队知识管理，核心功能包括多人协作、多格式导出、自动化构建与插件扩展。** 以下是其核心功能与使用场景的详细解析：
@@ -404,6 +406,7 @@
   - **自定义主题灵活性**：稍逊于 ReadTheDocs 等竞品。  
   - **命令行工具开发停滞**：截至 2023 年 5 月，GitBook CLI 已停止活跃开发，但可通过社区支持继续使用。
 
+---
 
 # 如何发布gitbook到自己的github仓库？
 将 GitBook 发布到自己的 GitHub 仓库需要以下步骤，分为本地准备和远程发布两部分：
@@ -541,6 +544,8 @@
 ---
 
 通过以上步骤，你的 GitBook 将自动或手动发布到 GitHub，并可通过 GitHub Pages 访问。推荐使用 **GitHub Actions** 实现自动化发布。
+
+---
 
 # 如何将GitBook发布到GitHub仓库
 将 GitBook 发布到 GitHub 仓库可以通过 **手动推送静态文件** 或 **使用 GitHub Actions 自动部署** 实现。以下是详细步骤：
@@ -691,6 +696,8 @@ git push origin main  # 或 master
 | **GitHub Actions** | 长期维护的项目 | 自动部署，适合团队协作 | 需要学习 YAML 配置 |
 
 **推荐使用 GitHub Actions**，尤其是需要频繁更新的项目！ 🚀
+
+---
 
 # 如何在 GitHub 上创建 GitBook？
 在 GitHub 上创建 GitBook 可以通过 **直接使用 GitHub 仓库存储源码** + **生成静态文件并部署到 GitHub Pages** 的方式实现。以下是详细步骤：
@@ -876,6 +883,8 @@ git push origin main  # 或 master
 | **GitBook Space** | 快速上手 | 无需本地环境，界面友好 | 免费版功能有限，需同步到 GitHub |
 
 **推荐使用 GitHub Actions**（自动化部署）或 **GitBook Space**（快速上手）！ 🚀
+
+---
 
 # 如何使用 GitBook Manager？
 **GitBook Manager** 是一个用于管理 GitBook 项目的工具或概念，通常指通过 **命令行工具、GUI 应用或自动化脚本** 来简化 GitBook 的初始化、构建、部署和内容管理流程。以下是详细的使用指南：

@@ -26,8 +26,7 @@
 我需要分析用户的问题和之前的搜索结果。用户之前询问了EnvManager的GitHub地址，但根据之前的回答，EnvManager主要托管在SourceForge，而GitHub上的搜索结果可能涉及其他同名或类似功能的项目。
 
 在最新的联网搜索结果中，搜索“EnvManager GitHub”返回了多个结果，但需要确认哪些是用户所需的。例如：
-
-｀Theshedman/env-manager｀：这是一个CLI工具，用于管理.env文件，但用户需要的是Windows环境变量管理工具，可能不相关。
+`Theshedman/env-manager`：这是一个CLI工具，用于管理.env文件，但用户需要的是Windows环境变量管理工具，可能不相关。
 ｀JackyDing/EnvMan｀：这个项目明确提到是Windows Environment Variables Manager，使用C#编写，符合用户需求。其GitHub地址为`https://github.com/JackyDing/EnvMan`。
 bitrise-io/envman：这是另一个环境变量管理工具，但主要针对Bitrise平台，可能不相关。
 Codervio/Envmanager：可能是一个PHP包，用于解析.env文件，与用户需求不符。

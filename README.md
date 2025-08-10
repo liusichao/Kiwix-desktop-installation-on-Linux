@@ -338,7 +338,7 @@ lsc985113065之前问过关于添加文件目录到系统变量和用户环境�
 
 ---
 
-请提供EnvManager的下载地址
+# 请提供EnvManager的下载地址
 
 思考和行动过程
 我需要处理lsc985113065关于获取EnvManager、Path Manager和System Path Commander下载地址的请求。首先，我要确认这些工具的当前可用性和官方下载来源，因为软件下载地址可能会随时间变化，而用户需要的是最新和合法的下载链接。
@@ -411,7 +411,7 @@ System Path Commander的搜索结果显示在SoftDeluxe和DonationCoder上的下
 
 ---
 
-请提供EnvManager的GitHub地址
+# 请提供EnvManager的GitHub地址
 
 思考和行动过程
 我需要解决lsc985113065的问题，用户要求提供EnvManager的下载地址。首先，回顾之前的对话历史，用户之前询问了关于环境变量管理工具的推荐，然后进一步询问了三个工具的下载地址，现在用户再次特别要求EnvManager的下载地址。

@@ -28,7 +28,7 @@
 在最新的联网搜索结果中，搜索“EnvManager GitHub”返回了多个结果，但需要确认哪些是用户所需的。例如：
 `Theshedman/env-manager`：这是一个CLI工具，用于管理.env文件，但用户需要的是Windows环境变量管理工具，可能不相关。
 `JackyDing/EnvMan`：这个项目明确提到是Windows Environment Variables Manager，使用C#编写，符合用户需求。其GitHub地址为`https://github.com/JackyDing/EnvMan`。
-bitrise-io/envman：这是另一个环境变量管理工具，但主要针对Bitrise平台，可能不相关。
+`bitrise-io/envman`：这是另一个环境变量管理工具，但主要针对Bitrise平台，可能不相关。
 `Codervio/Envmanager`：可能是一个PHP包，用于解析.env文件，与用户需求不符。
 `hitankshah/env-manager`：一个CLI工具，用于管理不同环境的.env文件，可能不相关。
 需要确认`JackyDing/EnvMan`是否为官方或可信的仓库。根据搜索结果，该仓库有43颗星，7个分支，最后一次提交在2019年，可能是一个较旧的但有效的项目。用户之前提到的EnvManager在SourceForge的最新版本是2024年，而GitHub上的这个项目可能是一个分支或第三方维护的版本。

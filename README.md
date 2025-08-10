@@ -36,7 +36,7 @@ Codervio/Envmanager：可能是一个PHP包，用于解析.env文件，与用户
 hitankshah/env-manager：一个CLI工具，用于管理不同环境的.env文件，可能不相关。
 需要确认JackyDing/EnvMan是否为官方或可信的仓库。根据搜索结果，该仓库有43颗星，7个分支，最后一次提交在2019年，可能是一个较旧的但有效的项目。用户之前提到的EnvManager在SourceForge的最新版本是2024年，而GitHub上的这个项目可能是一个分支或第三方维护的版本。
 
-因此，正确的GitHub地址应为'https://github.com/JackyDing/EnvMan'。需要向用户提供此链接，并说明其与SourceForge版本的关系，可能是一个开源的分支或替代方案。
+因此，正确的GitHub地址应为`https://github.com/JackyDing/EnvMan。`需要向用户提供此链接，并说明其与SourceForge版本的关系，可能是一个开源的分支或替代方案。
 
 ---
 

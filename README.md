@@ -159,7 +159,7 @@ class EnvManager(QWidget):
         layout.addWidget(self.status)
 
         self.setLayout(layout)
-
+```
 ---
 
 # 添加文件目录到系统变量和用户环境变量的可视化工具有哪些？

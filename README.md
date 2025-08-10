@@ -110,9 +110,9 @@ lsc985113065想要一个可视化工具来添加文件目录到系统变量和�
 
 我需要继续分析用户的问题和之前的搜索结果。用户想要一个可视化工具来添加文件目录到系统变量和用户环境变量。根据最新的搜索结果，我找到了一些关键信息：
 
-Qt应用中修改系统环境变量：在Linux中，可以通过修改~/.bashrc或/etc/environment文件，并使用source命令生效。在Qt中，可以使用QProcessEnvironment类来获取和设置环境变量，但需要注意这些修改仅对当前进程有效，永久修改需要操作系统级别的配置。
+- Qt应用中修改系统环境变量：在Linux中，可以通过修改~/.bashrc或/etc/environment文件，并使用source命令生效。在Qt中，可以使用QProcessEnvironment类来获取和设置环境变量，但需要注意这些修改仅对当前进程有效，永久修改需要操作系统级别的配置。
 
-Python跨平台修改环境变量：使用os.environ可以临时修改环境变量，但永久修改需要手动编辑系统文件。对于不同操作系统，需要分别处理路径和命令，例如Windows使用setx，而Linux/macOS使用export。
+- Python跨平台修改环境变量：使用os.environ可以临时修改环境变量，但永久修改需要手动编辑系统文件。对于不同操作系统，需要分别处理路径和命令，例如Windows使用setx，而Linux/macOS使用export。
 
 开源项目推荐：提到了fix-path项目，可以解决GUI应用中的环境变量路径问题，但主要针对Node.js应用。此外，venv-manager-gui是一个Python虚拟环境管理工具，但功能集中在虚拟环境而非系统环境变量。
 
@@ -129,3 +129,33 @@ Python跨平台修改环境变量：使用os.environ可以临时修改环境变�
 
 思考完成:  
 准备输出结果
+
+根据您的需求，我为您设计了一个基于Python和PyQt5的可视化环境变量管理工具。以下是工具的实现方案：
+
+```python
+import sys
+import os
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFileDialog, QLabel, QVBoxLayout, QMessageBox
+
+class EnvManager(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle('环境变量管理工具 v1.0')
+        self.setGeometry(300, 300, 400, 200)
+
+        layout = QVBoxLayout()
+
+        self.label = QLabel('请选择要添加的目录：', self)
+        layout.addWidget(self.label)
+
+        btn = QPushButton('浏览目录', self)
+        btn.clicked.connect(self.browse_dir)
+        layout.addWidget(btn)
+
+        self.status = QLabel('当前环境变量：\n' + os.environ.get('PATH', ''), self)
+        layout.addWidget(self.status)
+
+        self.setLayout(layout)

@@ -1,7 +1,5 @@
 # 添加文件目录到系统变量和用户环境变量的可视化工具有哪些？
 
----
-
 思考和行动过程
 我需要处理lsc985113065的问题：“请提供EnvManager的GitHub地址”。首先，回顾之前的对话历史，用户之前询问了关于环境变量管理工具的推荐，然后具体询问了EnvManager、Path Manager和System Path Commander的下载地址。在之前的回复中，我提供了EnvManager在SourceForge的下载链接，但用户现在想要的是GitHub地址。
 

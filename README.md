@@ -297,7 +297,44 @@ lsc985113065之前问过关于添加文件目录到系统变量和用户环境�
 思考完成:  
 准备输出结果
 
+根据最新检索结果，为您整理以下工具的下载信息：
 
+**1. EnvManager（Windows环境变量管理器）**
+- **开源项目地址**：SourceForge平台提供官方下载
+- **最新版本**：Windows Environment Variables Manager (EnvMan) v1.2（2024年更新）
+- **下载链接**：https://sourceforge.net/projects/windows-environment-variables-manager/
+- **功能特点**：
+  - 支持系统级/用户级变量管理
+  - 树状结构展示变量层级
+  - 批量导入/导出配置
+  - 变量值校验功能
+
+**2. Path Manager（路径管理工具）**
+- **开源项目地址**：SourceForge平台提供官方下载
+- **最新版本**：Path-Manager v3.5（2016年更新）
+- **下载链接**：https://sourceforge.net/projects/pathmanager/
+- **功能特点**：
+  - 拖拽添加目录
+  - 路径有效性检测
+  - 历史版本兼容性好
+  - 支持系统路径排序
+
+**3. System Path Commander（系统路径指挥官）**
+- **当前状态**：官方下载渠道已失效，最后稳定版本为v1.31（2005年发布）
+- **替代方案**：建议使用开源项目PathManager（GitHub）
+- **GitHub地址**：https://github.com/HermitOS/PathManager
+- **功能特点**：
+  - 临时启用/禁用路径项
+  - 路径格式转换
+  - 重复路径检测
+  - 支持.NET Core全局工具
+
+**注意事项**：
+1. System Path Commander因年代久远，建议优先使用RapidEE等现代工具
+2. 开源项目建议从GitHub/SourceForge官方页面下载
+3. 企业用户可考虑Oracle Path Manager（需企业存储设备支持）
+
+是否需要我为您演示这些工具的具体使用方法？
 
 
 

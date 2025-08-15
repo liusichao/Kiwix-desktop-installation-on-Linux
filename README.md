@@ -260,7 +260,7 @@ lsc985113065现在问的是如何安装.NET Core SDK，并使用dotnet tool inst
 
 需要检查是否有遗漏的步骤，比如安装SDK后的环境变量配置，或者不同Linux发行版的安装差异。比如Ubuntu和Fedora的安装命令可能不同，需要分别说明。同时，确保命令示例正确，比如dotnet tool install后面跟的是包名，而不是路径。
 
-可能用户会混淆dotnet install tool和dotnet tool install，需要明确指出正确的命令是dotnet tool install，并解释之前的错误写法。不过用户的问题里已经提到“dotnet install tool”，可能需要纠正，但回答时要保持友好，指出正确的命令格式。
+可能用户会混淆`dotnet install tool`和`dotnet tool install`，需要明确指出正确的命令是dotnet tool install，并解释之前的错误写法。不过用户的问题里已经提到“`dotnet install tool`”，可能需要纠正，但回答时要保持友好，指出正确的命令格式。
 
 总之，回答需要结构清晰，分步骤，涵盖不同操作系统，并包含验证步骤和示例，确保用户能顺利安装SDK并使用工具命令。
 

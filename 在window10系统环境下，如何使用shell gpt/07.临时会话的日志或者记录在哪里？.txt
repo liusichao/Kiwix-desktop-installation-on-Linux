@@ -1,0 +1,94 @@
+在 **ShellGPT（SGPT）** 的临时会话（`--repl temp` 或自定义会话名）中，日志和记录的存储位置取决于工具的配置和运行环境。以下是详细说明和查找方法：
+
+---
+
+### **1. 默认日志位置**
+- **临时文件存储**：  
+  SGPT 默认会将临时会话的日志存储在系统的临时目录中，路径通常为：
+  - **Linux/macOS**:  
+    ```bash
+    /tmp/shell_gpt/  # 或通过 `echo $TMPDIR` 查看系统临时目录
+    ```
+  - **Windows**:  
+    ```cmd
+    %TEMP%\shell_gpt\  # 或通过 `echo %TEMP%` 查看临时目录
+    ```
+
+- **日志文件名**：  
+  日志文件通常以会话名命名（如 `repl_temp_<timestamp>.log` 或 `session_<UUID>.log`）。
+
+---
+
+### **2. 通过配置文件自定义路径**
+如果用户通过配置文件（如 `~/.config/shell_gpt/config.yaml` 或 `~/.sgpt/config.json`）修改了日志路径，需检查以下字段：
+```yaml
+# 示例配置（YAML格式）
+logging:
+  directory: "/path/to/custom/logs"  # 自定义日志目录
+  file_name: "sgpt_session.log"      # 自定义日志文件名
+```
+运行以下命令快速定位配置文件：
+```bash
+# Linux/macOS
+find ~ -name "*shell_gpt*" -o -name "*sgpt*" 2>/dev/null
+
+# Windows（PowerShell）
+Get-ChildItem -Path $env:USERPROFILE -Recurse -Filter "*shell_gpt*" -ErrorAction SilentlyContinue
+```
+
+---
+
+### **3. 动态查看日志输出**
+在会话中，SGPT 可能通过以下方式实时输出日志：
+- **终端打印**：部分日志（如命令执行结果）会直接显示在终端。
+- **重定向输出**：若启动时使用了输出重定向（如 `>> log.txt`），日志会保存到指定文件：
+  ```bash
+  sgpt --repl temp --shell "your_query" >> ~/sgpt_session.log
+  ```
+
+---
+
+### **4. 调试模式查看日志路径**
+启用调试模式（`--debug`）可获取更详细的日志路径信息：
+```bash
+sgpt --repl temp --shell "your_query" --debug
+```
+观察终端输出中类似以下的行：
+```
+[DEBUG] Logging to: /tmp/shell_gpt/repl_temp_20231001_123456.log
+```
+
+---
+
+### **5. 手动搜索日志文件**
+如果仍无法定位，可通过系统命令全局搜索：
+- **Linux/macOS**:
+  ```bash
+  sudo find / -type f -name "*shell_gpt*" -o -name "*sgpt*" 2>/dev/null
+  ```
+- **Windows（PowerShell）**:
+  ```powershell
+  Get-ChildItem -Path C:\ -Recurse -Filter "*shell_gpt*" -ErrorAction SilentlyContinue
+  ```
+
+---
+
+### **6. 清除日志**
+如需清理旧日志，直接删除对应目录下的文件即可：
+```bash
+# Linux/macOS
+rm -rf /tmp/shell_gpt/
+
+# Windows（CMD）
+del /Q %TEMP%\shell_gpt*
+```
+
+---
+
+### **总结建议**
+1. **优先检查临时目录**（`/tmp/` 或 `%TEMP%`）。
+2. **查看配置文件**确认是否自定义了路径。
+3. **启用调试模式**获取实时日志路径提示。
+4. **全局搜索**作为最后手段。
+
+如果需要进一步帮助（如解析日志内容或配置持久化存储），请提供你的操作系统和SGPT版本信息！
